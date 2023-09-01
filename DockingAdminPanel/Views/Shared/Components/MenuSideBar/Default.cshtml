@@ -1,0 +1,71 @@
+﻿<!-- ========== Left Sidebar Start ========== -->
+@if (User.Identity.IsAuthenticated)
+{
+    @*<div class="col-md-4 col-xl-4 col-lg-4">
+        <nav id="sidebar">
+            <div class="sidebar">
+                <div class="custom-menu">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    </button>
+                </div>
+                <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+                    <div class="user-logo">
+                        <div class="img" style="background-image: url(images/logo.jpg);"></div>
+                        <h3>Catriona Henderson</h3>
+                    </div>
+                </div>
+                <ul class="list-unstyled components mb-5">
+                    <li class="active">
+                        <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+                    </li>
+                    <li>
+                        <a asp-action="index" asp-controller="Products"><span class="fa fa-download mr-3 notif"><small class="d-flex align-items-center justify-content-center">5</small></span> Dockings</a>
+                    </li>
+                    <li>
+                        <a asp-action="PendingItems" asp-controller="Products"><span class="fa fa-gift mr-3"></span> Pending Dockings Approval</a>
+                    </li>
+                    <li>
+                        <a asp-action="ApprovedProducts" asp-controller="Products"><span class="fa fa-gift mr-3"></span>Approved Dockings</a>
+                    </li>
+                    <li>
+                        <a asp-action="index" asp-controller="Categories"><span class="fa fa-gift mr-3"></span>Add Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                    <li  >
+                        <a   id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>*@
+    <header class="header" id="header">
+        <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+        <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+    </header>
+
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">BBBootstrap</span> </a>
+                <div class="nav_list">
+                    <a asp-action="index" asp-controller="Products" class="nav_link active"><i class='bx bx-anchor'></i>  <span class="nav_name">Products</span> </a>
+                    <a href="#" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a>
+                    <a asp-action="PendingItems" asp-controller="Products" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span> </a>
+                    <a asp-action="PendingItems" asp-controller="Products" class="nav_link"> <i class='bx bx-question-mark bx-tada bx-flip-vertical'></i><span class="nav_name">Pending Dockings</span> </a>
+                    <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a> 
+                    <a href="#" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span> </a> </div>
+            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+        </nav>
+    </div>
+}
+
+<!-- Left Sidebar End -->
+ 

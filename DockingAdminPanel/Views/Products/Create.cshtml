@@ -1,0 +1,189 @@
+﻿@model DockingAdminPanel.Data.Products
+
+@{
+    ViewData["Title"] = "Create";
+}
+<!-- Sweet Alerts js -->
+
+
+@section styles{
+    <!-- Sweet Alert-->
+    <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+}
+<h1>Create</h1>
+
+<h4>Products</h4>
+<hr />
+<div class="card">
+    <div class="card-body">
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" asp-controller="Products" class="p-4" id="addproductform">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="address" class="control-label"></label>
+                        <input asp-for="address" class="form-control" />
+                        <span asp-validation-for="address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="location" class="control-label"></label>
+                        <input asp-for="location" class="form-control" />
+                        <span asp-validation-for="location" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="rentPerMonth" class="control-label"></label>
+                        <input asp-for="rentPerMonth" class="form-control" />
+                        <span asp-validation-for="rentPerMonth" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="spaceNumber" class="control-label"></label>
+                        <input asp-for="spaceNumber" class="form-control" />
+                        <span asp-validation-for="spaceNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="status" /> @Html.DisplayNameFor(model => model.status)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="adminApproval" /> @Html.DisplayNameFor(model => model.adminApproval)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="contractDate" class="control-label"></label>
+                        <input asp-for="contractDate" class="form-control" />
+                        <span asp-validation-for="contractDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="available" /> @Html.DisplayNameFor(model => model.available)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="addedDate" class="control-label"></label>
+                        <input asp-for="addedDate" class="form-control" />
+                        <span asp-validation-for="addedDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Category" class="control-label"></label>
+                                <select asp-for="Category" class="form-control">
+                            <option value="">Select a Category</option>
+                                    <option asp-for="Category" value="Rent">Rent</option>
+                                    <option asp-for="Category" value="Lease">Lease</option>
+                           
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                        <button type="submit"  class="btn btn-primary rounded-pill">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div></div>
+<div>
+    <a asp-action="Index" class="btn btn-warning rounded-pill">Back to List</a>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+<script>
+    //$(document).ready(function () {
+    //Swal.fire({
+    //    position: "top-end",
+    //    type: "warning",
+    //    title: "error while upload the file please check the format",
+    //    showConfirmButton: !1, timer: 1500
+    //});
+    //});
+    $(function () { //shorthand document.ready function
+        $('#addproductform').on('submit', function (e) { //use on if jQuery 1.7+
+            e.preventDefault();  //prevent form from submitting
+            //var data = $("#testpageform :input").serializeArray();
+
+            //var ss = $('input:radio:checked', '#testpageform').val()
+            //var sss = $('input:radio:checked').map(function (i, el) { return $(el).val(); }).get();
+
+           
+
+            var form = $("#addproductform");
+            var actionUrl = form.attr('action');
+
+            //$("input[name='questionList[0].correctanswers']").val(sss);
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(), // serializes the form's elements.
+                success: function (result) {
+
+                    // return RedirectToAction("CourseTestBuilder", new { courseId = TempData["courseid"], courseTestId = TempData["coursetestid"], CurrentTab = "Page-Overview-Tab" });
+                    if (result.success == 'true') {
+                        Swal.fire({
+                            position: "top-end",
+                            type: "success",
+                            title: result.message,
+                            showConfirmButton: !1, timer: 1500
+                        });
+                        setTimeout(
+                            function () {
+                                window.location = '@Url.Action("Index", "Products")'
+                            }, 500);
+                       // 
+                    } else {
+                        Swal.fire({
+                            position: "top-end",
+                            type: "warning",
+                            title: result.message,
+                            showConfirmButton: !1, timer: 1500
+                        });
+                    }
+
+                }
+            });
+
+
+
+        });
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

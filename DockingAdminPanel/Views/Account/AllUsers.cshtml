@@ -1,0 +1,10 @@
+﻿@model IEnumerable<User>
+@{
+    ViewData["Title"] = "AllUsers";
+}
+
+<h1>AllUsers</h1>
+@foreach (var item in Model)
+{
+    <p>@item.Email</p>
+}
