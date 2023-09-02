@@ -10,6 +10,7 @@ namespace DockingAdminPanel.Data;
 // Add profile data for application users by adding properties to the User class
 public class User : IdentityUser
 {
+    public int Id { get; set; }
     [MaxLength(50)]
     public string? FirstName { get; set; } 
 

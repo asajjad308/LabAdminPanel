@@ -12,7 +12,7 @@ using System.Text.Encodings.Web;
 using System.Text;
 using static DockingAdminPanel.Areas.Identity.Pages.Account.LoginModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNet.Identity;
+
 
 namespace DockingAdminPanel.Controllers
 {
@@ -199,17 +199,17 @@ namespace DockingAdminPanel.Controllers
         }
         // GET: AccountController/Create
         public async Task<IActionResult> AllUsers()
-        {
-            var xx = _userManager.Users;
-            var x = await _context.Users.ToListAsync();
+        {var xx= _userManager.Users;
+            List < User > x = await _context.Users.ToListAsync();
             List<UserViewModel> result = new List<UserViewModel>();
             
-             foreach (var item in x)
+             foreach (var item in xx)
             {
                 UserViewModel user = new UserViewModel();
+                user.Id = item.Id;
                 user.FirstName = item.FirstName;
                 user.LastName = item.LastName;
-                user.Email = item.Email;
+                user.Email = item.UserName;
                 user.Gender = item.Gender;
                 user.Address = item.Address;
                 result.Add(user);
@@ -219,6 +219,14 @@ namespace DockingAdminPanel.Controllers
             return result != null ?
                         View(result) :
                         Problem("Entity set 'BookingWebAppContext.products'  is null.");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+           
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
         private User CreateUser()
         {

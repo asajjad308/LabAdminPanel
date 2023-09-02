@@ -1,10 +1,48 @@
-﻿@model IEnumerable<User>
+﻿@model IEnumerable<UserViewModel>
 @{
     ViewData["Title"] = "AllUsers";
 }
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
-<h1>AllUsers</h1>
-@foreach (var item in Model)
-{
-    <p>@item.Email</p>
-}
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+<div class="row col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12">
+</div>
+<div class="card mt-5">
+    <div class="card-body">
+         
+        <div class="card-header  " style="height: 7vh">
+            Add Users
+
+            <a class="btn btn-primary btn-block float-end" asp-action="Create" asp-controller="Account"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add User</a>
+        </div>
+        <table id="myTable" class="display">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    let table = new DataTable('#myTable', {
+        responsive: true
+    });
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>

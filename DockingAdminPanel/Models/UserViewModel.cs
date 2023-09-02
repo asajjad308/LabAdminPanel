@@ -4,6 +4,7 @@ namespace DockingAdminPanel.Models
 {
     public class UserViewModel
     {
+        public int Id { get; set; }
         [MaxLength(50)]
         public string? FirstName { get; set; }
 

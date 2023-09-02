@@ -3,17 +3,24 @@
 @{
     ViewData["Title"] = "Dockings";
 }
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
-<h1>Add Docking Rent/Lease</h1>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 
- <div class="row col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12">
-    <a class="btn btn-primary rounded-pill shadow-sm pl-2" asp-action="Create"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add Docking</a>
 
- </div>
- 
- <div class="row">
- <div class="col-md-8">
-<table class=" table">
+
+<div class="row col-md-2 col-2 col-lg-2 col-xl-2 col-sm-12">
+</div>
+<div class="card mt-5">
+   
+    <div class="card-header">
+        Add Docking Rent/Lease
+
+        <a class="btn btn-primary btn-block float-end" asp-action="Create"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add Docking</a>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">All Dockings</h5>
+        <table id="myTable" class="display">
     <thead>
         <tr>
             <th>
@@ -97,3 +104,11 @@
 </table>
  </div>
  </div>
+<script>
+    let table = new DataTable('#myTable', {
+        responsive: true
+    });
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
