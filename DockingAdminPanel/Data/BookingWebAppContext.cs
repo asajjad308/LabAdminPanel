@@ -20,6 +20,8 @@ public class BookingWebAppContext : IdentityDbContext<User>
 
     public DbSet<Products> products { get; set; }
     public DbSet<User> users { get; set; }
+    public DbSet<Doctor> doctors { get; set; }
+    public DbSet<Patient> patients { get; set; }
     //public DbSet<Category> category { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {

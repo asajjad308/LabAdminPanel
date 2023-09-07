@@ -3,6 +3,7 @@ using System;
 using DockingAdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DockingAdminPanel.Migrations
 {
     [DbContext(typeof(BookingWebAppContext))]
-    partial class BookingWebAppContextModelSnapshot : ModelSnapshot
+    [Migration("20230907123540_32")]
+    partial class _32
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
