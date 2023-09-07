@@ -19,7 +19,7 @@ namespace DockingAdminPanel.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("DockingAdminPanel.Data.Products", b =>
+            modelBuilder.Entity("DockingAdminPanel.Models.Products", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace DockingAdminPanel.Migrations
                     b.ToTable("products");
                 });
 
-            modelBuilder.Entity("DockingAdminPanel.Data.User", b =>
+            modelBuilder.Entity("DockingAdminPanel.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -294,7 +294,7 @@ namespace DockingAdminPanel.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("DockingAdminPanel.Data.User", null)
+                    b.HasOne("DockingAdminPanel.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -303,7 +303,7 @@ namespace DockingAdminPanel.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("DockingAdminPanel.Data.User", null)
+                    b.HasOne("DockingAdminPanel.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -318,7 +318,7 @@ namespace DockingAdminPanel.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DockingAdminPanel.Data.User", null)
+                    b.HasOne("DockingAdminPanel.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,7 +327,7 @@ namespace DockingAdminPanel.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("DockingAdminPanel.Data.User", null)
+                    b.HasOne("DockingAdminPanel.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

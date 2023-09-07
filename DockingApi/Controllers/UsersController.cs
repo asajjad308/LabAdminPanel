@@ -14,7 +14,7 @@ using System.Text;
 namespace BackendApi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -128,7 +128,7 @@ namespace BackendApi.Controllers
 
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPost("AuthenticateUser")]
         public async Task<IActionResult> AuthenticateUser(AuthenticateUser authenticateUser)
         {
@@ -236,8 +236,8 @@ namespace BackendApi.Controllers
                 LastName = registerUserDTO.LastName,
                 UserName = registerUserDTO.Email,
                 Address = registerUserDTO.Address,
-                Gender = registerUserDTO.Gender,
-                CompanyId= registerUserDTO.CompanyId
+                Gender = registerUserDTO.Gender
+               
 
             };
 

@@ -1,7 +1,7 @@
 ﻿using DockingAdminPanel.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace DockingAdminPanel.Data
+namespace DockingAdminPanel.Models
 {
     public class Products
     {

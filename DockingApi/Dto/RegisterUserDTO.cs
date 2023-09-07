@@ -9,6 +9,6 @@
         public string Email { get; set; }
         public string? Address { get; set; }
         public string UserAvatar { get; set; }
-        public string CompanyId { get; set; }
+        
     }
 }

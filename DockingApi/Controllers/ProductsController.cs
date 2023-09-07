@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DockingApi.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DockingApi.Controllers
 {
     [Route("api/[controller]")]
+     
     [ApiController]
     public class ProductsController : ControllerBase
     {

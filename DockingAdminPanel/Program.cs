@@ -1,7 +1,8 @@
+using DockingAdminPanel.Models;
 using DockingAdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
- 
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BookingWebAppContext>(options =>
@@ -9,10 +10,11 @@ builder.Services.AddDbContext<BookingWebAppContext>(options =>
     var connstring = builder.Configuration.GetConnectionString("BookingAppDB");
     options.UseMySql(connstring, ServerVersion.AutoDetect(connstring));
 });
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<BookingWebAppContext>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<BookingWebAppContext>();
  // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+ 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

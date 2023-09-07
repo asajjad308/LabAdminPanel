@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DockingAdminPanel.Data.Products>
+﻿@model IEnumerable<DockingAdminPanel.Models.Products>
 
 @{
     ViewData["Title"] = "Dockings";
@@ -21,6 +21,34 @@
     <div class="card-body">
         <h5 class="card-title">All Dockings</h5>
         <table id="myTable" class="display">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Location</th>
+                    <th>spaceNumber</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.address</td>
+                        <td>@item.location</td>
+                        <td>@item.spaceNumber</td>
+                        <td>
+
+                            <a asp-action="Edit" asp-route-id="@item.Id"><i class='bx bxs-edit bx-tada bx-flip-vertical'></i></a> |
+                            <a asp-action="Details" asp-route-id="@item.Id"><i class='bx bxs-comment-detail bx-tada bx-flip-vertical'></i></a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class='bx bxs-message-x bx-tada bx-rotate-90'></i></a>
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+      @*  <table id="myTable" class="display">
     <thead>
         <tr>
             <th>
@@ -60,7 +88,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.address)
+                            @item.address
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.location)
@@ -101,7 +129,7 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@
  </div>
  </div>
 <script>

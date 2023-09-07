@@ -12,7 +12,7 @@ namespace DockingApi.Models
         public string LastName { get; set; } = null!;
 
          
-        public string CompanyId { get; set; } = null!;
+       
          
         public string Gender { get; set; } = null!;
         public string? Address { get; set; }

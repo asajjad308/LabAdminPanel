@@ -1,0 +1,322 @@
+﻿<div class="container mb-4">
+
+	<div class="form-wrap">
+		<form asp-action="CreateRole" asp-controller="Account" class="p-4" id="addproductform">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label  class="control-label"></label>
+						<input name="RoleName" class="form-control" />
+						<span   class="text-danger"></span>
+					</div>
+				</div>
+				 
+			</div>
+
+			 
+			<div class="row">
+				<div class="col-md-4">
+					<button type="submit" id="submit" class="btn btn-primary btn-block">Save</button>
+					<a asp-action="AllUsers" class="btn btn-warning btn-block">Back to List</a>
+				</div>
+			</div>
+			@*	<div class="form-group">
+			<button type="submit" class="btn btn-primary rounded-pill">Add</button>
+			</div>*@
+		</form>
+		@*<form id="survey-form">
+		<div class="row">
+		<div class="col-md-6">
+		<div class="form-group">
+		<label id="name-label" for="name">Name</label>
+		<input type="text" name="name" id="name" placeholder="Enter your name" class="form-control" required>
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+		<label id="email-label" for="email">Email</label>
+		<input type="email" name="email" id="email" placeholder="Enter your email" class="form-control" required>
+		</div>
+		</div>
+		</div>
+
+		<div class="row">
+		<div class="col-md-6">
+		<div class="form-group">
+		<label id="number-label" for="number">Age <small>(optional)</small></label>
+		<input type="number" name="age" id="number" min="10" max="99" class="form-control" placeholder="Age" >
+		</div>
+		</div>
+		<div class="col-md-6">
+		<div class="form-group">
+		<label>current role</label>
+		<select id="dropdown" name="role" class="form-control" required>
+		<option disabled selected >Select</option>
+		<option value="student">Student</option>
+		<option value="job">Full Time Job</option>
+		<option value="learner">Full Time Learner</option>
+		<option value="preferNo">Prefer not to say</option>
+		<option value="other">Other</option>
+		</select>
+		</div>
+		</div>
+		</div>
+
+		<div class="row">
+		<div class="col-md-6">
+		<div class="form-group">
+		<label>Would you recommend survey to a friend?</label>
+		<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="customRadioInline1" value="Definitely" name="customRadioInline1" class="custom-control-input" checked="">
+		<label class="custom-control-label" for="customRadioInline1">Definitely</label>
+		</div>
+		<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="customRadioInline2" value="Maybe" name="customRadioInline1" class="custom-control-input">
+		<label class="custom-control-label" for="customRadioInline2">Maybe</label>
+		</div>
+		<div class="custom-control custom-radio custom-control-inline">
+		<input type="radio" id="customRadioInline3" value="Not sure" name="customRadioInline1" class="custom-control-input">
+		<label class="custom-control-label" for="customRadioInline3">Not sure</label>
+		</div>
+		</div>
+		</div>
+
+		<div class="col-md-6">
+		<div class="form-group">
+		<label>This survey useful yes or no?</label>
+		<div class="custom-control custom-checkbox custom-control-inline">
+		<input type="checkbox" class="custom-control-input" name="yes" value="yes" id="yes" checked="">
+		<label class="custom-control-label" for="yes">Yes</label>
+		</div>
+		<div class="custom-control custom-checkbox custom-control-inline">
+		<input type="checkbox" class="custom-control-input" name="no" value="no" id="no">
+		<label class="custom-control-label" for="no">No</label>
+		</div>
+		</div>
+		</div>
+		</div>
+
+
+		<div class="row">
+		<div class="col-md-12">
+		<div class="form-group">
+		<label>Leave Message</label>
+		<textarea  id="comments" class="form-control" name="comment" placeholder="Enter your comment here..."></textarea>
+		</div>
+		</div>
+		</div>
+
+		<div class="row">
+		<div class="col-md-4">
+		<button type="submit" id="submit" class="btn btn-primary btn-block">Submit Survey</button>
+		</div>
+		</div>
+
+		</form>*@
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+	//$(document).ready(function () {
+	//Swal.fire({
+	//    position: "top-end",
+	//    type: "warning",
+	//    title: "error while upload the file please check the format",
+	//    showConfirmButton: !1, timer: 1500
+	//});
+	//});
+	$(function () { //shorthand document.ready function
+		$('#addproductform').on('submit', function (e) { //use on if jQuery 1.7+
+			e.preventDefault();  //prevent form from submitting
+			//var data = $("#testpageform :input").serializeArray();
+
+			//var ss = $('input:radio:checked', '#testpageform').val()
+			//var sss = $('input:radio:checked').map(function (i, el) { return $(el).val(); }).get();
+
+
+
+			var form = $("#addproductform");
+			var actionUrl = form.attr('action');
+
+			//$("input[name='questionList[0].correctanswers']").val(sss);
+			$.ajax({
+				type: "POST",
+				url: actionUrl,
+				data: form.serialize(), // serializes the form's elements.
+				success: function (result) {
+
+					// return RedirectToAction("CourseTestBuilder", new { courseId = TempData["courseid"], courseTestId = TempData["coursetestid"], CurrentTab = "Page-Overview-Tab" });
+					if (result.success == 'true') {
+						Swal.fire({
+							position: "top-end",
+							type: "success",
+							title: result.message,
+							showConfirmButton: !1, timer: 1500
+						});
+						setTimeout(
+							function () {
+								window.location = '@Url.Action("AllUsers", "Account")'
+							}, 500);
+						//
+					} else {
+						Swal.fire({
+							position: "top-end",
+							type: "warning",
+							title: result.message,
+							showConfirmButton: !1, timer: 1500
+						});
+					}
+
+				}
+			});
+
+
+
+		});
+	});
+</script>
+
+<style>
+	@@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
+
+	body {
+		padding: 100px 0;
+		background: #ecf0f4;
+		width: 100%;
+		height: 80%;
+		font-size: 18px;
+		line-height: 1.5;
+		font-family: 'Roboto', sans-serif;
+		color: #222;
+	}
+
+	.container {
+		max-width: 80%;
+		width: 100%;
+	}
+
+	h1 {
+		font-weight: 700;
+		font-size: 45px;
+		font-family: 'Roboto', sans-serif;
+	}
+
+	.header {
+		margin-bottom: 80px;
+	}
+
+	#description {
+		font-size: 24px;
+	}
+
+	.form-wrap {
+		background: rgba(255,255,255,1);
+		width: 100%;
+		max-width: 850px;
+		padding: 50px;
+		margin: 0 auto;
+		position: relative;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+		-moz-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+		box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+	}
+
+		.form-wrap:before {
+			content: "";
+			width: 90%;
+			height: calc(100% + 60px);
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			position: absolute;
+			top: -30px;
+			background: #0e1c36;
+			z-index: -1;
+			opacity: 0.8;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			-webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+			-moz-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+			box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+		}
+
+	.form-group {
+		margin-bottom: 25px;
+	}
+
+		.form-group > label {
+			display: block;
+			font-size: 18px;
+			color: #000;
+		}
+
+	.custom-control-label {
+		color: #000;
+		font-size: 16px;
+	}
+
+	.form-control {
+		height: 50px;
+		background: #ecf0f4;
+		border-color: transparent;
+		padding: 0 15px;
+		font-size: 16px;
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.3s ease-in-out;
+		-o-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+	}
+
+		.form-control:focus {
+			border-color: #0e1c36;
+			-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		}
+
+	textarea.form-control {
+		height: 160px;
+		padding-top: 15px;
+		resize: none;
+	}
+
+	.btn {
+		padding: .657rem .75rem;
+		font-size: 18px;
+		letter-spacing: 0.050em;
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.3s ease-in-out;
+		-o-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+	}
+
+
+
+	.btn-primary:focus, .btn-primary.focus {
+		color: #00bcd9;
+		background-color: #ffffff;
+		border-color: #00bcd9;
+		-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+	}
+
+	.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+	.show > .btn-primary.dropdown-toggle {
+		color: #00bcd9;
+		background-color: #ffffff;
+		border-color: #00bcd9;
+	}
+
+		.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+		.show > .btn-primary.dropdown-toggle:focus {
+			-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		}
+</style>

@@ -4,7 +4,7 @@ namespace DockingAdminPanel.Models
 {
     public class UserViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         [MaxLength(50)]
         public string? FirstName { get; set; }
 
@@ -18,5 +18,7 @@ namespace DockingAdminPanel.Models
         public string? Address { get; set; }
         public string? RefreshToken { get; set; }
         public string? UserAvatar { get; set; }
+        public string? role { get; set; }
+
     }
 }

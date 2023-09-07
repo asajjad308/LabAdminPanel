@@ -1,7 +1,6 @@
-﻿
-@model AddUser
+﻿@model UpdateUser
 @{
-    //ViewData["Title"] = "Add User";
+    ViewData["Title"] = "Update User";
     
     
     
@@ -26,12 +25,12 @@
         }
     </style>
 }*@
- 
+
 
 <div class="container mb-4">
     <div class="form-wrap">
-        <form id="registerForm" method="post" asp-action="create">
-            <h2>Create a new account.</h2>
+        <form id="registerForm" asp-action="EditUser" method="post">
+            <h2>Update User.</h2>
             <a asp-action="AllUsers" class="btn btn-warning btn-block">Back to List</a>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -39,14 +38,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
-                        <input asp-for="FirstName" class="form-control" required autocomplete="username" aria-required="true" placeholder="First Name" />
+                        <input asp-for="FirstName" required class="form-control" autocomplete="username" aria-required="true" placeholder="First Name" />
                         <label asp-for="FirstName">First Name</label>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
-                        <input asp-for="LastName" class="form-control" required autocomplete="username" aria-required="true" placeholder="Last Name" />
+                        <input asp-for="LastName" required class="form-control" autocomplete="username" aria-required="true" placeholder="Last Name" />
                         <label asp-for="LastName">Last Name</label>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
@@ -54,17 +53,25 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input asp-for="Email" class="form-control" autocomplete="username" required aria-required="true" placeholder="name@example.com" />
+                <input asp-for="Email" class="form-control"  required autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Email">Email</label>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
-            <div class="form-floating mb-3">
-                <input asp-for="Password" type="password" class="form-control" required autocomplete="new-password" aria-required="true" placeholder="Password" id="password-input" />
-                <label asp-for="Password">Password</label>
-                <span asp-validation-for="Password" class="text-danger"></span>
-                <div class="password-toggle" id="password-toggle">
-                    <i class="bx bx-show" aria-hidden="true" id="toggle-icon"></i>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input asp-for="Password" class="form-control" required autocomplete="new-password" aria-required="true" placeholder="Password" />
+                        <label asp-for="Password">Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  @*  <div class="form-floating mb-3">
+                        <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                        <label asp-for="ConfirmPassword">Confirm Password</label>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>*@
                 </div>
             </div>
 
@@ -75,12 +82,12 @@
                     @foreach (var item in Model.roles)
                     {
                         <option asp-for="@Model.roles" value="@item.Id">@item.Name</option>
+
                     }
                 </select>
                 <span for="roles" class="text-danger"></span>
             </div>
-
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Add User</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
         </form>
     </div>
 </div>
@@ -88,20 +95,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  
 <script>
-    const passwordInput = document.getElementById('password-input');
-    const toggleIcon = document.getElementById('toggle-icon');
-
-    toggleIcon.addEventListener('click', () => {
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
-        }
-    });
     //$(document).ready(function () {
     //Swal.fire({
     //    position: "top-end",
@@ -119,7 +112,7 @@
             //var sss = $('input:radio:checked').map(function (i, el) { return $(el).val(); }).get();
 
            
-             
+
             var form = $("#registerForm");
             var actionUrl = form.attr('action');
 

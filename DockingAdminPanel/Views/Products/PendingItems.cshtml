@@ -1,13 +1,125 @@
-﻿@model IEnumerable<DockingAdminPanel.Data.Products>
+﻿@model IEnumerable<DockingAdminPanel.Models.Products>
 
 @{
     ViewData["Title"] = "PendingItems";
 }
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 <h1>PendingItems</h1>
 
+<div class="card-body">
+    <h5 class="card-title">All Dockings</h5>
+    <table id="myTable" class="display">
+        <thead>
+            <tr>
+                <th>Address</th>
+                <th>Location</th>
+                <th>spaceNumber</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.address</td>
+                    <td>@item.location</td>
+                    <td>@item.spaceNumber</td>
+                    <td>
+                        <button class="btn btn-primary btn-block" onclick="approve('@item.Id')">Approve</button>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*  <table id="myTable" class="display">
+    <thead>
+    <tr>
+    <th>
+    @Html.DisplayNameFor(model => model.address)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.location)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.rentPerMonth)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.spaceNumber)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.status)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.adminApproval)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.contractDate)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.available)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.addedDate)
+    </th>
+    <th>
+    Category
+    </th>
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+    <tr>
+    <td>
+    @item.address
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.location)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.rentPerMonth)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.spaceNumber)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.status)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.adminApproval)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.contractDate)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.available)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.addedDate)
+    </td>
+    <td>
 
-<table class="table">
+    @(item.Category)
+    </td>
+    <td>
+
+    <a asp-action="Edit" asp-route-id="@item.Id"><i class='bx bxs-edit bx-tada bx-flip-vertical'></i></a> |
+    <a asp-action="Details" asp-route-id="@item.Id"><i class='bx bxs-comment-detail bx-tada bx-flip-vertical'></i></a> |
+    <a asp-action="Delete" asp-route-id="@item.Id"><i class='bx bxs-message-x bx-tada bx-rotate-90'></i></a>
+
+
+    </td>
+    </tr>
+    }
+    </tbody>
+    </table>*@
+</div>
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -91,7 +203,7 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     //$(document).ready(function () {
@@ -191,3 +303,11 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script>
+    let table = new DataTable('#myTable', {
+        responsive: true
+    });
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>

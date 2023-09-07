@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace DockingAdminPanel.Data;
+namespace DockingAdminPanel.Models;
 
 // Add profile data for application users by adding properties to the User class
 public class User : IdentityUser
 {
-    public int Id { get; set; }
+    
     [MaxLength(50)]
     public string? FirstName { get; set; } 
 
@@ -23,5 +23,6 @@ public class User : IdentityUser
     public string? Address { get; set; }
     public string? RefreshToken { get; set; }
     public string? UserAvatar { get; set; }
+
 }
 

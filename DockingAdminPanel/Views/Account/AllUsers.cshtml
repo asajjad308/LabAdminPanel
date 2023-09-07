@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<UserViewModel>
 @{
     ViewData["Title"] = "AllUsers";
+  
 }
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
@@ -12,8 +13,9 @@
          
         <div class="card-header  " style="height: 7vh">
             Add Users
-
-            <a class="btn btn-primary btn-block float-end" asp-action="Create" asp-controller="Account"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add User</a>
+            <a class="btn btn-primary btn-block float-end  m-2" asp-action="CreateRole" asp-controller="Account"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Create Role</a>
+            <a class="btn btn-primary btn-block float-end m-2" asp-action="Create" asp-controller="Account"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add User</a>
+            
         </div>
         <table id="myTable" class="display">
             <thead>
@@ -21,6 +23,7 @@
                     <th>FirstName</th>
                     <th>LastName</th>
                     <th>Email</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +33,11 @@
                         <td>@item.FirstName</td>
                         <td>@item.LastName</td>
                         <td>@item.Email</td>
+                        <td>
+                            <a asp-action="EditUser" asp-controller="Account" asp-route-id="@item.Id"><i class='bx bxs-edit bx-tada bx-flip-vertical'></i></a> |
+                            <a asp-action="Details" asp-route-id="@item.Id"><i class='bx bxs-comment-detail bx-tada bx-flip-vertical'></i></a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class='bx bxs-message-x bx-tada bx-rotate-90'></i></a>
+                        </td>
                     </tr>
                 }
             </tbody>
