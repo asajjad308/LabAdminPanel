@@ -56,7 +56,7 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,Specialization,LicenseNumber,DateOfBirth,Address,City,State,ZipCode,Country")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,Specialization,LicenseNumber,DateOfBirth,Address,City,State,ZipCode,fee")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {

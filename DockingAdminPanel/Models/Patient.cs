@@ -1,4 +1,6 @@
-﻿namespace DockingAdminPanel.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DockingAdminPanel.Models
 {
     public class Patient
     {
@@ -10,13 +12,14 @@
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Address { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string ZipCode { get; set; }
-        public string Country { get; set; }
+      
+     
         public string MedicalRecordNumber { get; set; } // Unique patient identifier in the medical system
-        public string InsuranceProvider { get; set; }   // e.g., Blue Cross, Aetna, etc.
-        public string PolicyNumber { get; set; }        // Patient's insurance policy number
+              // Patient's insurance policy number
         public string Illness { get; set; }
+        public int DoctorId { get; set; }
+
+        [NotMapped]
+        public List<Doctor> Doctors { get; set; }
     }
 }

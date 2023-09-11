@@ -46,9 +46,11 @@ namespace DockingAdminPanel.Controllers
         }
 
         // GET: Patients/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var model=new Patient();
+			model.Doctors = await _context.doctors.ToListAsync();
+            return View(model);
         }
 
         // POST: Patients/Create
@@ -56,16 +58,19 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,DateOfBirth,Address,City,State,ZipCode,Country,MedicalRecordNumber,InsuranceProvider,PolicyNumber,Illness")] Patient patient)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,DateOfBirth,Address,City,State,ZipCode,Country,MedicalRecordNumber,InsuranceProvider,PolicyNumber,Illness,DoctorId")] Patient patient)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(patient);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(patient);
-        }
+			_context.Add(patient);
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+			//if (ModelState.IsValid)
+			//{
+			//    _context.Add(patient);
+			//    await _context.SaveChangesAsync();
+			//    return RedirectToAction(nameof(Index));
+			//}
+			//return View(patient);
+		}
 
         // GET: Patients/Edit/5
         public async Task<IActionResult> Edit(int? id)

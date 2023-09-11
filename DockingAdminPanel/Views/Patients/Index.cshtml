@@ -3,13 +3,21 @@
 @{
     ViewData["Title"] = "Index";
 }
+ 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
-<h1>Index</h1>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+ 
+<div class="card mt-5">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+    <div class="card-header">
+        All Patiens
+
+        <a class="btn btn-primary btn-block float-end" asp-action="Create"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add Patients</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="myTable" class="display">
     <thead>
         <tr>
             <th>
@@ -30,7 +38,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
-            <th>
+        @*    <th>
                 @Html.DisplayNameFor(model => model.City)
             </th>
             <th>
@@ -50,7 +58,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PolicyNumber)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Illness)
             </th>
@@ -78,7 +86,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
-            <td>
+  @*          <td>
                 @Html.DisplayFor(modelItem => item.City)
             </td>
             <td>
@@ -97,8 +105,8 @@
                 @Html.DisplayFor(modelItem => item.InsuranceProvider)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PolicyNumber)
-            </td>
+                @Html.DisplayFor(modelItem => item.PolicyNumber)*@
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Illness)
             </td>
@@ -111,3 +119,13 @@
 }
     </tbody>
 </table>
+</div></div></div>
+
+<script>
+    let table = new DataTable('#myTable', {
+        responsive: true
+    });
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>

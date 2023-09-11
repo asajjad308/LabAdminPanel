@@ -49,7 +49,7 @@
             </div>
         </nav>
     </div>*@
-    @if (Model != null && Model.role == "Super Admin")
+    @if (Model != null )
     {
         <header class="header" style="background:#0e1c36" id="header">
 
@@ -63,10 +63,10 @@
                 <div>
                     <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">Admin Panel</span> </a>
                     <div class="nav_list">
-                        <a asp-action="index" asp-controller="Products" class="nav_link "><i class='bx bx-anchor'></i>  <span class="nav_name">Products</span> </a>
+                        <a asp-action="index" asp-controller="Doctors" class="nav_link "><i class='bx bx-clinic'></i>  <span class="nav_name">Doctors</span> </a>
                         <a asp-action="allusers" asp-controller="Account" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Users</span> </a>
                         <a asp-action="PendingItems" asp-controller="Products" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Messages</span> </a>
-                        <a asp-action="PendingItems" asp-controller="Products" class="nav_link"> <i class='bx bx-question-mark bx-tada bx-flip-vertical'></i><span class="nav_name">Pending Dockings</span> </a>
+                        <a asp-action="index" asp-controller="Patients" class="nav_link"><i class='bx bx-handicap'></i><span class="nav_name">Patients</span> </a>
                         <a href="#" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Files</span> </a>
                         <a href="#" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Stats</span> </a>
                     </div>
