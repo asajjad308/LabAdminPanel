@@ -33,8 +33,14 @@ namespace DockingAdminPanel.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<double>("ClinicCharges")
+                        .HasColumnType("double");
+
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<double>("DoctorFee")
+                        .HasColumnType("double");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -64,16 +70,44 @@ namespace DockingAdminPanel.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<double>("TotalFee")
+                        .HasColumnType("double");
+
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<double>("fee")
-                        .HasColumnType("double");
-
                     b.HasKey("Id");
 
                     b.ToTable("doctors");
+                });
+
+            modelBuilder.Entity("DockingAdminPanel.Models.LabItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("double");
+
+                    b.Property<double>("NormalValue")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<string>("TestName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Units")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("labItems");
                 });
 
             modelBuilder.Entity("DockingAdminPanel.Models.Patient", b =>
@@ -82,17 +116,15 @@ namespace DockingAdminPanel.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("AppointmentNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime(6)");
@@ -104,15 +136,17 @@ namespace DockingAdminPanel.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("External")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<double>("Fee")
+                        .HasColumnType("double");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Illness")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("InsuranceProvider")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -124,25 +158,89 @@ namespace DockingAdminPanel.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("PaymentStatus")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PolicyNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("TokenNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("patients");
+                });
+
+            modelBuilder.Entity("DockingAdminPanel.Models.PatientToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Counter")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DailyTotalCounter")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TotalCounterAddedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("patientTokens");
+                });
+
+            modelBuilder.Entity("DockingAdminPanel.Models.PatientsTests", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CollectionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("longtext");
+
+                    b.Property<double>("NormalValue")
+                        .HasColumnType("double");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("Paidtime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("ResultAddedDatetime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("SampleName")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TestName")
+                        .HasColumnType("longtext");
+
+                    b.Property<double>("TestResult")
+                        .HasColumnType("double");
+
+                    b.Property<DateTime>("addedDatetime")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("patientsTests");
                 });
 
             modelBuilder.Entity("DockingAdminPanel.Models.Products", b =>

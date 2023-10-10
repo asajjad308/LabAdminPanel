@@ -1,0 +1,277 @@
+﻿@model DockingAdminPanel.Models.TestAppointmentsViewModel
+
+@{
+    ViewData["Title"] = "Add Patient Tests";
+	double total=0;
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+
+
+
+<h1>Add Patient Tests</h1>
+
+<h4>Add Patient Tests</h4>
+@if (Model.patient!=null)
+{
+	<h5>Name:@Model.patient.FullName</h5>
+	<h5>Referred By:@Model.patient.FullName</h5>
+}
+<div class="container mb-4">
+	
+    <div class="form-wrap">
+		
+		<form asp-action="AddTestsAppointments" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" value="@Model?.patient?.Id" name="patientid"  />
+			<input type="hidden" value="@Model?.patient?.FullName" name="fullname" />
+		
+			@foreach (var item in Model.labItems)
+			{
+				<div class="row">
+					<div class="col-6">
+						<div class="form-group form-check">
+							<label class="form-check-label">
+								<input onclick="callcheckboxalert(@item.Price)" class="form-check-input" name="test" value="@item.Id" type="checkbox" /> @item.TestName
+							</label>
+						</div>
+					</div>
+				</div>
+			
+	 
+			}
+            @*<div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>*@
+         @*   <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>*@
+			<div class="row">
+				<div class="col-6">
+					<div class="form-group form-check">
+						<label class="form-check-label">
+							<input   class="form-check-input" name="paid" value="yes" type="checkbox" /> Mark As Paid
+						</label>
+					</div>
+				</div>
+			</div>
+			<h5 id="total">total Amount : <input type="number" value="0" id="tot" readonly /></h5>
+			<div class="form-group">
+				<input type="submit" value="Add Tests" class="btn btn-primary" />
+				<a asp-action="Index" class="btn btn-warning">Back to List</a>
+			</div>
+        </form>
+    </div>
+</div>
+
+
+<div class="card mt-5">
+
+    <div class="card-header">
+		<h5>All Test Of  @Model?.patient?.FullName</h5>
+	 
+
+      @*  <a class="btn btn-primary btn-block float-end" asp-action="Create"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add Patients</a>*@
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="myTable" class="display">
+                <thead>
+					<tr>
+						<th>Test Name</th>
+						<th>Payment Status</th>
+					</tr>
+                   
+                </thead>
+                <tbody>
+				@if( Model.patientsTests!=null && Model.patientsTests.Count()>0)
+					{
+						@foreach (var item in Model.patientsTests)
+						{
+							<tr>
+								<td>@item.TestName</td>
+								<td>@(item.Paid == true ? "Paid" : "Unpaid")</td>
+							</tr>
+
+						}
+					}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+	let table = new DataTable('#myTable', {
+		responsive: true
+	});
+	$(document).ready(function () {
+		$('#myTable').DataTable();
+	});
+	var totalamount=0;
+	function callcheckboxalert(price){
+		 totalamount=totalamount+price;
+	 
+		document.getElementById("tot").value=totalamount;
+		 
+	}
+</script>
+<style>
+	@@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
+
+	body {
+		padding: 100px 0;
+		background: #ecf0f4;
+		width: 100%;
+		height: 80%;
+		font-size: 18px;
+		line-height: 1.5;
+		font-family: 'Roboto', sans-serif;
+		color: #222;
+	}
+
+	.container {
+		max-width: 80%;
+		width: 100%;
+	}
+
+	h1 {
+		font-weight: 700;
+		font-size: 45px;
+		font-family: 'Roboto', sans-serif;
+	}
+
+	.header {
+		margin-bottom: 80px;
+	}
+
+	#description {
+		font-size: 24px;
+	}
+
+	.form-wrap {
+		background: rgba(255,255,255,1);
+		width: 100%;
+		max-width: 850px;
+		padding: 50px;
+		margin: 0 auto;
+		position: relative;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		-webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+		-moz-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+		box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+	}
+
+		.form-wrap:before {
+			content: "";
+			width: 90%;
+			height: calc(100% + 60px);
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			position: absolute;
+			top: -30px;
+			background: #0e1c36;
+			z-index: -1;
+			opacity: 0.8;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			-webkit-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+			-moz-box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+			box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.15);
+		}
+
+	.form-group {
+		margin-bottom: 25px;
+	}
+
+		.form-group > label {
+			display: block;
+			font-size: 18px;
+			color: #000;
+		}
+
+	.custom-control-label {
+		color: #000;
+		font-size: 16px;
+	}
+
+	.form-control {
+		height: 50px;
+		background: #ecf0f4;
+		border-color: transparent;
+		padding: 0 15px;
+		font-size: 16px;
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.3s ease-in-out;
+		-o-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+	}
+
+		.form-control:focus {
+			border-color: #0e1c36;
+			-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		}
+
+	textarea.form-control {
+		height: 160px;
+		padding-top: 15px;
+		resize: none;
+	}
+
+	.btn {
+		padding: .657rem .75rem;
+		font-size: 18px;
+		letter-spacing: 0.050em;
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.3s ease-in-out;
+		-o-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+	}
+
+
+
+	.btn-primary:focus, .btn-primary.focus {
+		color: #00bcd9;
+		background-color: #ffffff;
+		border-color: #00bcd9;
+		-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+	}
+
+	.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+	.show > .btn-primary.dropdown-toggle {
+		color: #00bcd9;
+		background-color: #ffffff;
+		border-color: #00bcd9;
+	}
+
+		.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+		.show > .btn-primary.dropdown-toggle:focus {
+			-webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+			box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
+		}
+</style>

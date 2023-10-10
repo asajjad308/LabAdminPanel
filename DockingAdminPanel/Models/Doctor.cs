@@ -15,6 +15,10 @@
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-        public double fee { get; set; }
+      
+        public double DoctorFee { get; set; }
+        public double ClinicCharges { get; set; }
+
+        public double TotalFee { get; set; }
     }
 }

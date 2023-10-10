@@ -20,6 +20,7 @@
             <table id="myTable" class="display">
     <thead>
         <tr>
+            <th>Status</th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -67,7 +68,10 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+                        <tr data-fullname="@item.FullName" data-fee="@item.Fee" data-token="@item.TokenNumber">
+                            <td style=@(item.PaymentStatus==true?"background-color:green":"background-color:red")>
+                @(item.PaymentStatus==true?"Paid":"UnPaid")
+            </td>                
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -86,41 +90,220 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
-  @*          <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MedicalRecordNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InsuranceProvider)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PolicyNumber)*@
+ 
             
             <td>
                 @Html.DisplayFor(modelItem => item.Illness)
             </td>
+            
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                                <a asp-action="Print" class="btn btn-outline-success">Print</a>
+                <a asp-action="AddTestsAppointments" class="btn btn-outline-primary" asp-route-id="@item.Id">Add Tests</a> |
+                                <a asp-action="Edit" class="btn btn-outline-secondary" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" class="btn btn-outline-warning" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
+
+                              
+                            </td>
         </tr>
 }
     </tbody>
 </table>
 </div></div></div>
 
+
+
+<style>
+    @@media print {
+        /* Define print-specific styles here */
+        #receiptContent {
+            font-size: 18pt; /* Adjust font size for printing */
+            margin: 30px; /* Add margins for better readability */
+        }
+    }
+</style>
+
+<script>
+    //function printReceipt(element) {
+    //    var tr = element.closest('tr'); // Find the parent tr element
+    //    var fullname = tr.getAttribute('data-fullname');
+    //    var fee = tr.getAttribute('data-fee');
+
+    //    console.log(fullname);
+
+    //    var printContent = `
+    //        <div class="receipt">
+    //            <h1>Receipt</h1>
+    //            <hr />
+    //            <p><strong>Name:</strong> ${fullname}</p>
+    //            <p><strong>Fee:</strong> ${fee}</p>
+    //            <!-- Add other dynamic content here -->
+    //        </div>
+    //    `;
+
+    //    var originalContent = document.body.innerHTML;
+    //    document.body.innerHTML = printContent;
+
+    //    // Apply CSS styles to the receipt content
+    //    var style = document.createElement('style');
+    //    style.innerHTML = `
+    //        .receipt {
+    //            font-family: Arial, sans-serif;
+    //            background-color: #f2f2f2;
+    //            padding: 20px;
+    //            border: 1px solid #ccc;
+    //            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    //            margin: 20px;
+    //        }
+    //        h1 {
+    //            font-size: 24px;
+    //            text-align: center;
+    //        }
+    //        p {
+    //            font-size: 16px;
+    //        }
+    //        hr {
+    //            border: 1px solid #ccc;
+    //        }
+    //    `;
+    //    document.head.appendChild(style);
+
+    //    // Print the content
+    //    window.print();
+
+    //    // Restore the original content
+    //    document.body.innerHTML = originalContent;
+    //}
+//    function printReceipt(element) {
+//    var tr = element.closest('tr'); // Find the parent tr element
+//    var fullname = tr.getAttribute('data-fullname');
+//    var fee = tr.getAttribute('data-fee');
+
+//    console.log(fullname);
+
+//    var printContent = `
+//        <div class="receipt">
+//            <h1>Receipt</h1>
+//            <hr />
+//            <p><strong>Name:</strong> ${fullname}</p>
+//            <p><strong>Fee:</strong> ${fee}</p>
+//            <!-- Add other dynamic content here -->
+//        </div>
+//    `;
+
+//    var originalContent = document.body.innerHTML;
+//    document.body.innerHTML = printContent;
+
+//    // Apply CSS styles to the receipt content
+//    var style = document.createElement('style');
+//    style.innerHTML = `
+//        @@page {
+//            size: auto;
+//            margin: 0mm;
+//        }
+//        body {
+//            margin: 0;
+//            padding: 0;
+//        }
+//        .receipt {
+//            font-family: Arial, sans-serif;
+//            background-color: #f2f2f2;
+//            padding: 20px;
+//            border: 1px solid #ccc;
+//            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+//            margin: 0 auto; /* Center horizontally */
+//            max-width: 80%; /* Limit maximum width */
+//        }
+//        h1 {
+//            font-size: 24px;
+//            text-align: center;
+//        }
+//        p {
+//            font-size: 16px;
+//        }
+//        hr {
+//            border: 1px solid #ccc;
+//        }
+//    `;
+//    document.head.appendChild(style);
+
+//    // Print the content
+//    window.print();
+
+//    // Restore the original content
+//    document.body.innerHTML = originalContent;
+//}
+
+ function printReceipt(element) {
+    var tr = element.closest('tr'); // Find the parent tr element
+    var fullname = tr.getAttribute('data-fullname');
+    var fee = tr.getAttribute('data-fee');
+    var token = tr.getAttribute('data-token');
+
+    console.log(fullname);
+
+    var printContent = `
+        <div class="receipt">
+            <h2>Receipt</h2>
+            <hr />
+            <p><strong>Name:</strong> ${fullname}</p>
+            <p><strong>Fee:</strong> ${fee}</p>
+            <p><strong>Token:</strong> ${token}</p>
+            <!-- Add other dynamic content here -->
+        </div>
+    `;
+
+    var originalContent = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+
+    // Apply CSS styles to the receipt content
+    var style = document.createElement('style');
+    style.innerHTML = `
+        @@page {
+            size: auto; /* Use the default page size */
+            margin: 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        .receipt {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 10px; /* Increase padding for better readability */
+           
+            max-width: 60%; /* Adjust the width to fit better on the page */
+            text-align: center;
+            margin: 0 auto; /* Center the receipt horizontally on the page */
+        }
+        h2 {
+            font-size: 18px;
+        }
+        p {
+            font-size: 18px;
+            margin: 4px 0;
+        }
+        hr {
+            border: 0px solid #ccc;
+            margin: 8px 0;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Print the content
+    window.print();
+
+    // Restore the original content
+    document.body.innerHTML = originalContent;
+}
+
+   
+
+
+</script>
 <script>
     let table = new DataTable('#myTable', {
         responsive: true

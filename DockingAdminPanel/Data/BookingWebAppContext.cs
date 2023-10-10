@@ -22,8 +22,10 @@ public class BookingWebAppContext : IdentityDbContext<User>
     public DbSet<User> users { get; set; }
     public DbSet<Doctor> doctors { get; set; }
     public DbSet<Patient> patients { get; set; }
-    //public DbSet<Category> category { get; set; }
-    protected override void OnModelCreating(ModelBuilder builder)
+    public DbSet<LabItems> labItems { get; set; }
+    public DbSet<PatientsTests> patientsTests { get; set; }
+	public DbSet<PatientToken> patientTokens { get; set; }
+	protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         // Customize the ASP.NET Identity model and override the defaults if needed.

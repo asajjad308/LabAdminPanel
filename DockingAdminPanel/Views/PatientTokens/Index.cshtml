@@ -1,0 +1,44 @@
+﻿@model DockingAdminPanel.Models.PatientToken
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Counter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DailyTotalCounter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCounterAddedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Counter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.DailyTotalCounter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.TotalCounterAddedDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@Model.Id">Reset Counter</a> |
+            
+            </td>
+        </tr>
+    </tbody>
+</table>
