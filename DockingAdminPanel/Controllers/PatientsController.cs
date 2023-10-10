@@ -9,13 +9,7 @@ using DockingAdminPanel.Data;
 using DockingAdminPanel.Models;
 using System.Drawing.Printing;
 using System.Drawing;
-using PdfSharp.Pdf.IO;
-using iTextSharp.text.pdf;
-using DocumentFormat.OpenXml.Bibliography;
-using iTextSharp.text;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-
+ 
 namespace DockingAdminPanel.Controllers
 {
     public class PatientsController : Controller
@@ -152,99 +146,236 @@ namespace DockingAdminPanel.Controllers
         //    return RedirectToAction("Index");
         //}
 
-        public void Print()
+        //public void Print()
+        //{
+        //    // Create a new document
+        //    Document document = new Document();
+
+        //    // Set the file path for the PDF
+        //    string fileName = "invoice.pdf";
+        //   var filePath= Path.Combine(_webHostEnvironment.WebRootPath, "uploads/branding", fileName);
+
+        //    ///// GET UPLOAD PATH /////                          
+        //    var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/");
+
+        //    var uploads = Path.Combine(uploadPath, oken");
+        //    var filePath = Path.Combine(uploads, fileName);
+
+        //    if (!Directory.Exists(uploads))
+        //    {
+        //        Directory.CreateDirectory(uploads);
+        //    }
+        //    else
+        //    {
+        //        string[] files = Directory.GetFiles(uploads);
+        //        foreach (string deleteFile in files)
+        //        {
+        //            System.IO.File.Delete(deleteFile);
+        //        }
+
+        //    }
+
+        //    using (FileStream fs = new FileStream(filePath, FileMode.Create))
+        //    {
+        //        // Create a PdfWriter to write the document to the FileStream
+        //        PdfWriter writer = PdfWriter.GetInstance(document, fs);
+
+        //        // Open the document for writing
+        //        document.Open();
+
+        //        // Invoice details
+        //        string invoiceNumber = "INV-2023-001";
+        //        DateTime invoiceDate = DateTime.Now;
+        //        string customerName = "John Doe";
+        //        decimal totalAmount = 500.00m;
+
+        //        // Create a PdfPTable for the invoice
+        //        PdfPTable table = new PdfPTable(2);
+
+
+        //        // Add invoice details to the table
+        //        table.AddCell("Invoice Number:");
+        //        table.AddCell(invoiceNumber);
+        //        table.AddCell("Invoice Date:");
+        //        table.AddCell(invoiceDate.ToString("yyyy-MM-dd"));
+        //        table.AddCell("Customer:");
+        //        table.AddCell(customerName);
+        //        table.AddCell("Total Amount:");
+        //        table.AddCell(totalAmount.ToString("C")); // Currency formatting
+        //        foreach (var cell in table.Rows.SelectMany(r => r.GetCells()))
+        //        {
+        //            cell.Border = PdfPCell.NO_BORDER;
+        //        }
+
+        //        // Add the table to the document
+        //        document.Add(table);
+
+        //        // Close the document
+        //        document.Close();
+        //    }
+
+        //    // Print the PDF
+        //    PrintPDF(filePath);
+        //}
+
+        //private void PrintPDF(string filePath)
+        //{
+        //    try
+        //    {
+        //        // Create a ProcessStartInfo to specify the print command
+        //        ProcessStartInfo psi = new ProcessStartInfo()
+        //        {
+        //            FileName = filePath,
+        //            Verb = "print",
+        //            UseShellExecute = true
+        //        };
+
+        //        // Start the process (print the PDF)
+        //        Process.Start(psi);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle any exceptions related to printing
+        //        Console.WriteLine("Error printing the PDF: " + ex.Message);
+        //    }
+        //}
+        public IActionResult Print()
         {
-            // Create a new document
-            Document document = new Document();
-
-            // Set the file path for the PDF
-            string fileName = "invoice.pdf";
-         
-
-            ///// GET UPLOAD PATH /////                          
-            var uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/");
-
-            var uploads = Path.Combine(uploadPath, "token");
-            var filePath = Path.Combine(uploads, fileName);
-
-            if (!Directory.Exists(uploads))
+            PrintDocument printDocument = new PrintDocument();
+            printDocument.PrintPage += (s, e) =>
             {
-                Directory.CreateDirectory(uploads);
-            }
-            else
-            {
-                string[] files = Directory.GetFiles(uploads);
-                foreach (string deleteFile in files)
-                {
-                    System.IO.File.Delete(deleteFile);
-                }
+                // Receipt details
+                string fullName = "John Doe";
+                string fee = "$100";
+                DateTime appointmentDateTime = DateTime.Now;
+                string doctorName = "Dr. Smith";
+                string doctorFee = "$200";
 
-            }
+                // Create a fixed-width font for the table
+                System.Drawing.Font font = new System.Drawing.Font("Courier New", 12);
+                Brush brush = Brushes.Black;
 
-            using (FileStream fs = new FileStream(filePath, FileMode.Create))
-            {
-                // Create a PdfWriter to write the document to the FileStream
-                PdfWriter writer = PdfWriter.GetInstance(document, fs);
+                // Calculate the position to start printing
+                float pageWidth = e.PageBounds.Width;
+                float y = 0; // You can adjust this value to control the top margin
 
-                // Open the document for writing
-                document.Open();
+                // Define table column widths and positions
+                float col1Width = 200;
+                float col2Width = 150;
 
-                // Invoice details
-                string invoiceNumber = "INV-2023-001";
-                DateTime invoiceDate = DateTime.Now;
-                string customerName = "John Doe";
-                decimal totalAmount = 500.00m;
+                // Define the horizontal space adjustment
+                float horizontalSpaceAdjustment = 30; // Adjust this value as needed
 
-                // Create a PdfPTable for the invoice
-                PdfPTable table = new PdfPTable(2);
-               
+                // Draw the table headers
+                e.Graphics.DrawString("Appointment Receipt", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, y + 10);
+                e.Graphics.DrawLine(Pens.Black, 10, y + 35, pageWidth - 10, y + 35);
 
-                // Add invoice details to the table
-                table.AddCell("Invoice Number:");
-                table.AddCell(invoiceNumber);
-                table.AddCell("Invoice Date:");
-                table.AddCell(invoiceDate.ToString("yyyy-MM-dd"));
-                table.AddCell("Customer:");
-                table.AddCell(customerName);
-                table.AddCell("Total Amount:");
-                table.AddCell(totalAmount.ToString("C")); // Currency formatting
-                foreach (var cell in table.Rows.SelectMany(r => r.GetCells()))
-                {
-                    cell.Border = PdfPCell.NO_BORDER;
-                }
+                // Draw the table content
+                y += 40;
+                e.Graphics.DrawString("Patient:", font, brush, 10, y);
+                e.Graphics.DrawString(fullName, font, brush, col1Width - horizontalSpaceAdjustment, y);
 
-                // Add the table to the document
-                document.Add(table);
+                y += font.Height;
 
-                // Close the document
-                document.Close();
-            }
+                e.Graphics.DrawString("Date:", font, brush, 10, y);
+                e.Graphics.DrawString(appointmentDateTime.ToString("yyyy-MM-dd HH:mm:ss"), font, brush, col1Width - horizontalSpaceAdjustment, y);
 
-            // Print the PDF
-            PrintPDF(filePath);
+                y += font.Height;
+                e.Graphics.DrawString("Time:", font, brush, 10, y);
+                e.Graphics.DrawString(appointmentDateTime.ToString("HH:mm:ss"), font, brush, col1Width - horizontalSpaceAdjustment, y);
+
+                y += font.Height;
+                e.Graphics.DrawString("Fee:", font, brush, 10, y);
+                e.Graphics.DrawString(fee, font, brush, col1Width - horizontalSpaceAdjustment, y);
+
+                y += font.Height + 15;
+
+                e.Graphics.DrawLine(Pens.Black, 10, y, pageWidth - 10, y);
+
+                y += 5;
+
+                e.Graphics.DrawString("Doctor:", font, brush, 10, y);
+                e.Graphics.DrawString(doctorName, font, brush, col1Width - horizontalSpaceAdjustment, y);
+
+                y += font.Height;
+
+                e.Graphics.DrawString("Doctor Fee:", font, brush, 10, y);
+                e.Graphics.DrawString(doctorFee, font, brush, col1Width - horizontalSpaceAdjustment, y);
+
+                // Draw a border around the table
+                e.Graphics.DrawRectangle(Pens.Black, 5, 5, pageWidth - 10, y + font.Height + 5);
+
+            };
+
+            // Print the document
+            printDocument.Print();
+
+            return RedirectToAction("Index");
         }
 
-        private void PrintPDF(string filePath)
-        {
-            try
-            {
-                // Create a ProcessStartInfo to specify the print command
-                ProcessStartInfo psi = new ProcessStartInfo()
-                {
-                    FileName = filePath,
-                    Verb = "print",
-                    UseShellExecute = true
-                };
+        //public IActionResult Print()
+        //{
+        //    PrintDocument printDocument = new PrintDocument();
+        //    printDocument.PrintPage += (s, e) =>
+        //    {
+        //        // Receipt details
+        //        string fullName = "John Doe";
+        //        string fee = "$100";
+        //        DateTime appointmentDateTime = DateTime.Now;
+        //        string doctorName = "Dr. Smith";
+        //        string doctorFee = "$200";
 
-                // Start the process (print the PDF)
-                Process.Start(psi);
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions related to printing
-                Console.WriteLine("Error printing the PDF: " + ex.Message);
-            }
-        }
+        //        // Create a fixed-width font for the table
+        //        System.Drawing.Font font = new System.Drawing.Font("Courier New", 12);
+        //        Brush brush = Brushes.Black;
+
+        //        // Calculate the position to start printing
+        //        float pageWidth = e.PageBounds.Width;
+        //        float y = 0; // You can adjust this value to control the top margin
+
+        //        // Define table column widths and positions
+        //        float col1Width = 200;
+        //        float col2Width = 150;
+
+        //        // Draw the table headers
+        //        e.Graphics.DrawString("Appointment Receipt", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, y + 10);
+        //        e.Graphics.DrawLine(Pens.Black, 10, y + 35, pageWidth - 10, y + 35);
+
+        //        // Draw the table content
+        //        y += 40;
+        //        e.Graphics.DrawString("Patient:", font, brush, 10, y);
+        //        e.Graphics.DrawString(fullName, font, brush, col1Width, y);
+        //        y += font.Height + 5;
+
+        //        e.Graphics.DrawString("Date:", font, brush, 10, y);
+        //        e.Graphics.DrawString(appointmentDateTime.ToString("yyyy-MM-dd HH:mm:ss"), font, brush, col1Width, y);
+        //        y += font.Height + 5;
+
+        //        e.Graphics.DrawString("Fee:", font, brush, 10, y);
+        //        e.Graphics.DrawString(fee, font, brush, col1Width, y);
+        //        y += font.Height + 15;
+
+        //        e.Graphics.DrawLine(Pens.Black, 10, y, pageWidth - 10, y);
+
+        //        y += 5;
+
+        //        e.Graphics.DrawString("Doctor:", font, brush, 10, y);
+        //        e.Graphics.DrawString(doctorName, font, brush, col1Width, y);
+        //        y += font.Height + 5;
+
+        //        e.Graphics.DrawString("Doctor Fee:", font, brush, 10, y);
+        //        e.Graphics.DrawString(doctorFee, font, brush, col1Width, y);
+
+        //        // Draw a border around the table
+        //        e.Graphics.DrawRectangle(Pens.Black, 5, 5, pageWidth - 10, y + font.Height + 5);
+
+        //    };
+
+        //    // Print the document
+        //    printDocument.Print();
+
+        //    return RedirectToAction("Index");
+        //}
 
         //public IActionResult Print()
         //{
@@ -268,7 +399,7 @@ namespace DockingAdminPanel.Controllers
         //        // Add other dynamic content here
 
         //        // Create a font and brush for the text
-        //        Font font = new Font("Arial", 12);
+        //        System.Drawing.Font font = new System.Drawing.Font("Arial", 12);
         //        Brush brush = Brushes.Black;
 
         //        // Calculate the position to start printing
@@ -282,7 +413,7 @@ namespace DockingAdminPanel.Controllers
 
         //        // Draw the receipt text on the page
         //        e.Graphics.DrawString(receiptText.ToString(), font, brush, 0, y);
-        //       // e.Graphics.DrawString(receiptText.ToString(), font, brush, x, y);
+        //        // e.Graphics.DrawString(receiptText.ToString(), font, brush, x, y);
         //    };
 
         //    // Print the document
