@@ -250,6 +250,8 @@ namespace DockingAdminPanel.Controllers
                 DateTime appointmentDateTime = DateTime.Now;
                 string doctorName = "Dr. Smith";
                 string doctorFee = "$200";
+                string gender = "Male";
+                int age = 30;
 
                 // Create a fixed-width font for the table
                 System.Drawing.Font font = new System.Drawing.Font("Courier New", 12);
@@ -266,25 +268,40 @@ namespace DockingAdminPanel.Controllers
                 // Define the horizontal space adjustment
                 float horizontalSpaceAdjustment = 30; // Adjust this value as needed
 
+                // Draw the watermark
+                e.Graphics.DrawString("A+ CLINIC", new System.Drawing.Font(font, FontStyle.Bold), Brushes.Gray, 10, 10);
+
                 // Draw the table headers
-                e.Graphics.DrawString("Appointment Receipt", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, y + 10);
-                e.Graphics.DrawLine(Pens.Black, 10, y + 35, pageWidth - 10, y + 35);
+                e.Graphics.DrawString("Appointment Receipt", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, y + 40);
+                e.Graphics.DrawLine(Pens.Black, 10, y + 65, pageWidth - 10, y + 65);
 
                 // Draw the table content
-                y += 40;
+                y += 70;
                 e.Graphics.DrawString("Patient:", font, brush, 10, y);
                 e.Graphics.DrawString(fullName, font, brush, col1Width - horizontalSpaceAdjustment, y);
 
                 y += font.Height;
 
-                e.Graphics.DrawString("Date:", font, brush, 10, y);
-                e.Graphics.DrawString(appointmentDateTime.ToString("yyyy-MM-dd HH:mm:ss"), font, brush, col1Width - horizontalSpaceAdjustment, y);
+                e.Graphics.DrawString("Gender:", font, brush, 10, y); // Add gender
+                e.Graphics.DrawString(gender, font, brush, col1Width - horizontalSpaceAdjustment, y);
 
                 y += font.Height;
+
+                e.Graphics.DrawString("Age:", font, brush, 10, y); // Add age
+                e.Graphics.DrawString(age.ToString(), font, brush, col1Width - horizontalSpaceAdjustment, y);
+
+                y += font.Height;
+
+                e.Graphics.DrawString("Date:", font, brush, 10, y);
+                e.Graphics.DrawString(appointmentDateTime.ToString("yyyy-MM-dd"), font, brush, col1Width - horizontalSpaceAdjustment, y);
+
+                y += font.Height;
+
                 e.Graphics.DrawString("Time:", font, brush, 10, y);
                 e.Graphics.DrawString(appointmentDateTime.ToString("HH:mm:ss"), font, brush, col1Width - horizontalSpaceAdjustment, y);
 
                 y += font.Height;
+
                 e.Graphics.DrawString("Fee:", font, brush, 10, y);
                 e.Graphics.DrawString(fee, font, brush, col1Width - horizontalSpaceAdjustment, y);
 
