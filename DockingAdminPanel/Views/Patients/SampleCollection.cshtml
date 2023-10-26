@@ -40,7 +40,7 @@
 						<th>Sample Name</th>
 						<th>Collection Time</th>
 						<th>Result</th>
-						<th>Payment Status</th>
+						<th>Normal Value</th>
 						<th>Action</th>
 					</tr>
 
@@ -55,7 +55,7 @@
 								<td>@item.SampleName</td>
 								<td>@item.CollectionTime</td>
 								<td>@item.TestResult</td>
-								<td>@(item.Paid == true ? "Paid" : "Unpaid")</td>
+								<td>@(item.NormalValue)</td>
 							<td>
 									<button class="btn btn-primary" onclick="printTable()">Print Table</button>
 									<a asp-action="AddSampleCollection" class="btn btn-primary" asp-route-id="@item.Id">Collect Sample</a> |

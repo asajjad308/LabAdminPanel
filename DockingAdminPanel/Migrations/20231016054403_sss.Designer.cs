@@ -3,6 +3,7 @@ using System;
 using DockingAdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DockingAdminPanel.Migrations
 {
     [DbContext(typeof(BookingWebAppContext))]
-    partial class BookingWebAppContextModelSnapshot : ModelSnapshot
+    [Migration("20231016054403_sss")]
+    partial class sss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,36 +85,17 @@ namespace DockingAdminPanel.Migrations
                     b.ToTable("doctors");
                 });
 
-            modelBuilder.Entity("DockingAdminPanel.Models.LabCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("labCategories");
-                });
-
             modelBuilder.Entity("DockingAdminPanel.Models.LabItems", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Cost")
                         .HasColumnType("double");
 
-                    b.Property<string>("NormalValue")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<double>("NormalValue")
+                        .HasColumnType("double");
 
                     b.Property<double>("Price")
                         .HasColumnType("double");
@@ -139,6 +123,7 @@ namespace DockingAdminPanel.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Age")
@@ -154,6 +139,7 @@ namespace DockingAdminPanel.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("External")
@@ -167,18 +153,22 @@ namespace DockingAdminPanel.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Illness")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MedicalRecordNumber")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("PaymentStatus")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Sex")
@@ -225,9 +215,8 @@ namespace DockingAdminPanel.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("NormalValue")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<double>("NormalValue")
+                        .HasColumnType("double");
 
                     b.Property<bool>("Paid")
                         .HasColumnType("tinyint(1)");

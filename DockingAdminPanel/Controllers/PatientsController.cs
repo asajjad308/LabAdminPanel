@@ -239,7 +239,7 @@ namespace DockingAdminPanel.Controllers
         //        Console.WriteLine("Error printing the PDF: " + ex.Message);
         //    }
         //}
-        public IActionResult Print(int Id)
+        public IActionResult Printx(int Id)
         {
             PrintDocument printDocument = new PrintDocument();
             printDocument.PrintPage += (s, e) =>
@@ -366,6 +366,110 @@ namespace DockingAdminPanel.Controllers
 
             return RedirectToAction("Index");
         }
+        public IActionResult Print(int Id)
+        {
+            PrintDocument printDocument = new PrintDocument();
+            printDocument.PrintPage += (s, e) =>
+            {
+                // Receipt details
+                string cashierName = "Jane Smith";
+                string fullName = "John Doe";
+                string patientAddress = "123 Main St, City";
+                string patientPhone = "(555) 123-4567";
+                string invoiceNumber = "INV-2023001";
+                string receiptDate = DateTime.Now.ToString("yyyy-MM-dd");
+                string fee = "$100.00";
+                string tax = "$10.00";
+                string totalAmount = "$110.00";
+                string doctorName = "Dr. Smith";
+                string doctorSpecialty = "Cardiologist";
+                string doctorLicense = "License #12345";
+                string gender = "Male";
+                string tokenNumber = "Token Number: 12345";
+                string InoviceNumber = "Invoice Number: 12345";
+                int age = 30;
+
+                var patient = _context.patients.Find(Id);
+                fullName = patient.FirstName;
+                patientAddress = patient.Address;
+                patientPhone = patient.PhoneNumber;
+                invoiceNumber = patient.TokenNumber.ToString();
+                gender = patient.Sex;
+                age = patient.Age;
+                tokenNumber = patient.TokenNumber.ToString();
+                invoiceNumber = patient.Id.ToString();
+
+                // Create a font and brush for text
+                System.Drawing.Font font = new System.Drawing.Font("Arial",8);
+                Brush brush = Brushes.Black;
+
+                // Calculate the position to start printing
+                float pageWidth = e.PageBounds.Width;
+                float y = 0; // You can adjust this value to control the top margin
+
+                // Define table column widths and positions
+                float col1Width = 60;
+                float col2Width = 60;
+
+                // Define the horizontal space adjustment
+                float horizontalSpaceAdjustment = 70;
+
+                // Create a table for the cashier information
+                float cashierTableY = 70;
+                
+                e.Graphics.DrawString("Cashier Information", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, cashierTableY + 10);
+
+                // Define cashier details and print them
+                string[] cashierFields = { "Issued By:", "Date:", "Time:" };
+                string[] cashierValues = { cashierName, DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("HH:mm:ss") };
+
+                for (int i = 0; i < cashierFields.Length; i++)
+                {
+                    e.Graphics.DrawRectangle(Pens.Black, 10 + i * col1Width, cashierTableY + 30, col1Width, 40);
+                    e.Graphics.DrawString(cashierFields[i], new System.Drawing.Font(font, FontStyle.Bold), brush, 10 + i * col1Width, cashierTableY + 40);
+                    e.Graphics.DrawRectangle(Pens.Black, 10 + i * col1Width, cashierTableY + 70, col1Width, 40);
+                    e.Graphics.DrawString(cashierValues[i], font, brush, 10 + i * col1Width, cashierTableY + 80);
+                }
+
+                // Create a table for the patient information
+                float patientTableY = cashierTableY + 120;
+               
+                e.Graphics.DrawString("Patient Information", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, patientTableY);
+
+                // Define the column headers for patient information
+                string[] patientFields = { "Token No", "Name", "Address", "Phone", "Gender" };
+                string[] patientValues = { tokenNumber, fullName, patientAddress, patientPhone, gender };
+
+                for (int i = 0; i < patientFields.Length; i++)
+                {
+                    e.Graphics.DrawRectangle(Pens.Black, 10 + i * col1Width, patientTableY + 30, col1Width, 40);
+                    e.Graphics.DrawString(patientFields[i], new System.Drawing.Font(font, FontStyle.Bold), brush, 10 + i * col1Width, patientTableY + 40);
+                    e.Graphics.DrawRectangle(Pens.Black, 10 + i * col1Width, patientTableY + 70, col1Width, 40);
+                    e.Graphics.DrawString(patientValues[i], font, brush, 10 + i * col1Width, patientTableY + 80);
+                }
+
+                // Draw Age as a separate row
+                e.Graphics.DrawRectangle(Pens.Black, 10, patientTableY + 110, col1Width, 40);
+                e.Graphics.DrawString("Age", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, patientTableY + 120);
+                e.Graphics.DrawRectangle(Pens.Black, 10, patientTableY + 150, col1Width, 40);
+                e.Graphics.DrawString(age.ToString(), font, brush, 10, patientTableY + 160);
+
+                // ... (continue drawing other sections similarly)
+
+                // Draw the total amount
+                float billingTableY = patientTableY + 140;
+                e.Graphics.DrawRectangle(Pens.Black, 5, billingTableY, pageWidth - 10, 80);
+                e.Graphics.DrawString("Total Amount", new System.Drawing.Font(font, FontStyle.Bold), brush, 10, billingTableY + 10);
+                e.Graphics.DrawRectangle(Pens.Black, 10, billingTableY + 30, col1Width, 40);
+                e.Graphics.DrawString(totalAmount, font, brush, 10, billingTableY + 40);
+            };
+
+            // Print the document
+            printDocument.Print();
+
+            return RedirectToAction("Index");
+        }
+
 
         //public IActionResult Print(int Id)
         //{

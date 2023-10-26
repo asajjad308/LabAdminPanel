@@ -21,7 +21,7 @@
         public DateTime Paidtime { get; set; }
 
 
-		public double NormalValue { get; set; }
+		public string NormalValue { get; set; }
 		public double TestResult { get; set; }
 		public DateTime ResultAddedDatetime { get; set; }
 

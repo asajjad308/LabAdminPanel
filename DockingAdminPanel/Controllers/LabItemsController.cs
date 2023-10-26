@@ -21,7 +21,7 @@ namespace DockingAdminPanel.Controllers
 
         // GET: LabItems
         public async Task<IActionResult> Index()
-        {
+        {var categories=await _context.labCategories.ToListAsync();
               return _context.labItems != null ? 
                           View(await _context.labItems.ToListAsync()) :
                           Problem("Entity set 'BookingWebAppContext.labItems'  is null.");

@@ -3,6 +3,7 @@ using System;
 using DockingAdminPanel.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DockingAdminPanel.Migrations
 {
     [DbContext(typeof(BookingWebAppContext))]
-    partial class BookingWebAppContextModelSnapshot : ModelSnapshot
+    [Migration("20231016055258_ssa")]
+    partial class ssa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,36 +85,17 @@ namespace DockingAdminPanel.Migrations
                     b.ToTable("doctors");
                 });
 
-            modelBuilder.Entity("DockingAdminPanel.Models.LabCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("labCategories");
-                });
-
             modelBuilder.Entity("DockingAdminPanel.Models.LabItems", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Cost")
                         .HasColumnType("double");
 
-                    b.Property<string>("NormalValue")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<double>("NormalValue")
+                        .HasColumnType("double");
 
                     b.Property<double>("Price")
                         .HasColumnType("double");
@@ -225,9 +209,8 @@ namespace DockingAdminPanel.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("NormalValue")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<double>("NormalValue")
+                        .HasColumnType("double");
 
                     b.Property<bool>("Paid")
                         .HasColumnType("tinyint(1)");
