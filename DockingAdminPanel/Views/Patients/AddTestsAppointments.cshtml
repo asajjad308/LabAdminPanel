@@ -12,7 +12,7 @@
 
 
 
-<h1>Add Patient Tests</h1>
+
 
 <h4>Add Patient Tests</h4>
 @if (Model.patient!=null)
@@ -28,53 +28,33 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<input type="hidden" value="@Model?.patient?.Id" name="patientid"  />
 			<input type="hidden" value="@Model?.patient?.FullName" name="fullname" />
-		
-			@foreach (var item in Model.labItems)
-			{
-				<div class="row">
-					<div class="col-6">
-						<div class="form-group form-check">
-							<label class="form-check-label">
-								<input onclick="callcheckboxalert(@item.Price)" class="form-check-input" name="test" value="@item.Id" type="checkbox" /> @item.TestName
-							</label>
-						</div>
-					</div>
-				</div>
-			
-	 
-			}
-            @*<div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>*@
-         @*   <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ZipCode" class="control-label"></label>
-                <input asp-for="ZipCode" class="form-control" />
-                <span asp-validation-for="ZipCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>*@
+
 			<div class="row">
-				<div class="col-6">
-					<div class="form-group form-check">
-						<label class="form-check-label">
-							<input   class="form-check-input" name="paid" value="yes" type="checkbox" /> Mark As Paid
-						</label>
+				@foreach (var cat in Model.labCategories)
+				{
+					<div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
+						<h4>@cat.Name</h4>
+						<hr />
+						@foreach (var item in Model.labItems)
+						{
+							if (item.CategoryId == cat.Id)
+							{
+								<div class="form-group form-check">
+									<label class="form-check-label">
+										<input onclick="callcheckboxalert(@item.Price)" class="form-check-input" name="test" value="@item.Id" type="checkbox" /> @item.TestName
+									</label>
+								</div>
+							}
+						}
 					</div>
-				</div>
+				}
 			</div>
+
+
+ 
 			<h5 id="total">total Amount : <input type="number" value="0" id="tot" readonly /></h5>
 			<div class="form-group">
-				<input type="submit" value="Add Tests" class="btn btn-primary" />
+				<input type="submit" value="Pay" class="btn btn-primary" />
 				<a asp-action="Index" class="btn btn-warning">Back to List</a>
 			</div>
         </form>

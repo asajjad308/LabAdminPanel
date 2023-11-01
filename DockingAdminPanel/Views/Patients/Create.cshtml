@@ -78,6 +78,7 @@
             <div class="form-group">
                 <button id="PaidAppointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitClick()">Paid Appointment</button>
                 <button id="Appointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitUnpaidClick()">Appointment</button>
+				<button id="Appointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitLabClick()">Lab Appointment</button>
                 <a asp-action="Index" class="btn btn-primary btn-block rounded-pill font-size-16">Back to List</a>
             </div>
         </form>
@@ -88,9 +89,18 @@
 
 
 		<script>
-	function onsubmitClick(e) {
+	function onsubmitLabClick(e) {
 
 	 
+		$('#PaymentStatus').val("false");
+
+		$("#addpatientappointment").attr('action', 'CreateLabUnPaid');
+		$("#addpatientappointment").submit();
+
+	}
+	function onsubmitClick(e) {
+
+
 		$('#PaymentStatus').val("true");
 
 		$("#addpatientappointment").attr('action', 'CreatePaid');

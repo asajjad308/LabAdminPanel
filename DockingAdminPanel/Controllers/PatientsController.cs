@@ -65,7 +65,9 @@ namespace DockingAdminPanel.Controllers
             viewModel.patient = patient;
             viewModel.labItems = getalltest;
             viewModel.patientsTests= patientstest;
-            return View(viewModel);
+			var labcategories = _context.labCategories.ToList();
+			viewModel.labCategories = labcategories;
+			return View(viewModel);
 		}
 		
 		public async Task<IActionResult> SampleCollection(int id)
@@ -111,10 +113,7 @@ namespace DockingAdminPanel.Controllers
                         patientsTests.TestName = singletest.TestName;
                         patientsTests.addedDatetime = DateTime.Now;
                         patientsTests.NormalValue = singletest.NormalValue;
-                        if (paid=="yes")
-                        {
-                            patientsTests.Paid = true;
-                        }
+                        patientsTests.Paid = true;
                         patientsTests.Price = singletest.Price;
                         patientsTests.TestId = Convert.ToInt32(item);
                         _context.patientsTests.Add(patientsTests);
@@ -129,6 +128,8 @@ namespace DockingAdminPanel.Controllers
 			viewModel.patient = patient;
 			viewModel.labItems = getalltest;
             viewModel.patientsTests= patientstest;
+            var labcategories=_context.labCategories.ToList();
+            viewModel.labCategories= labcategories;
 			return View(viewModel);
 		}
         // POST: Patients/Create
@@ -875,6 +876,36 @@ namespace DockingAdminPanel.Controllers
        
 
             return RedirectToAction(nameof(Index));
+			//if (ModelState.IsValid)
+			//{
+			//    _context.Add(patient);
+			//    await _context.SaveChangesAsync();
+			//    return RedirectToAction(nameof(Index));
+			//}
+			//return View(patient);
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CreateLabUnPaid(Patient patient)
+		{
+			patient.PaymentStatus = false;
+
+			var tokens = _context.patientTokens.FirstOrDefault();
+			int counter = 0;
+			if (tokens != null)
+			{
+				counter = tokens.Counter;
+				tokens.Counter = counter + 1;
+				patient.TokenNumber = counter;
+				_context.Update(tokens);
+				_context.SaveChanges();
+			}
+			_context.Add(patient);
+			await _context.SaveChangesAsync();
+
+
+			return RedirectToAction("AddTestsAppointments", new { id = patient.Id });
+
 			//if (ModelState.IsValid)
 			//{
 			//    _context.Add(patient);

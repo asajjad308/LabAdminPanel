@@ -6,5 +6,6 @@
 		public List<LabItems> labItems { get; set; }
         public List<Patient> patients { get; set; }
         public List<PatientsTests> patientsTests { get; set; }
+		public List<LabCategory> labCategories { get; set; }
 	}
 }

@@ -10,21 +10,20 @@ using DockingAdminPanel.Models;
 
 namespace DockingAdminPanel.Controllers
 {
-    public class LabItemsController : Controller
+    public class LabCategoriesController : Controller
     {
         private readonly BookingWebAppContext _context;
 
-        public LabItemsController(BookingWebAppContext context)
+        public LabCategoriesController(BookingWebAppContext context)
         {
             _context = context;
         }
 
         // GET: LabItems
         public async Task<IActionResult> Index()
-        {
-           
-              return _context.labItems != null ? 
-                          View(await _context.labItems.ToListAsync()) :
+        {var categories=await _context.labCategories.ToListAsync();
+              return _context.labCategories != null ? 
+                          View(await _context.labCategories.ToListAsync()) :
                           Problem("Entity set 'BookingWebAppContext.labItems'  is null.");
         }
 
@@ -47,12 +46,9 @@ namespace DockingAdminPanel.Controllers
         }
 
         // GET: LabItems/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var categories = await _context.labCategories.ToListAsync();
-            LabItems labItems = new LabItems(); 
-            labItems.labCategories= categories;
-            return View(labItems);
+            return View();
         }
 
         // POST: LabItems/Create
@@ -60,26 +56,26 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TestName,Price,Units,NormalValue,CategoryId")] LabItems labItems)
+        public async Task<IActionResult> Create([Bind("Id,Name")] LabCategory labCategory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(labItems);
+                _context.Add(labCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(labItems);
+            return View(labCategory);
         }
 
         // GET: LabItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.labItems == null)
+            if (id == null || _context.labCategories == null)
             {
                 return NotFound();
             }
 
-            var labItems = await _context.labItems.FindAsync(id);
+            var labItems = await _context.labCategories.FindAsync(id);
             if (labItems == null)
             {
                 return NotFound();
@@ -92,9 +88,9 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TestName,Price,Units,NormalValue")] LabItems labItems)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] LabCategory labCategory)
         {
-            if (id != labItems.Id)
+            if (id != labCategory.Id)
             {
                 return NotFound();
             }
@@ -103,12 +99,12 @@ namespace DockingAdminPanel.Controllers
             {
                 try
                 {
-                    _context.Update(labItems);
+                    _context.Update(labCategory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LabItemsExists(labItems.Id))
+                    if (!LabItemsExists(labCategory.Id))
                     {
                         return NotFound();
                     }
@@ -119,18 +115,18 @@ namespace DockingAdminPanel.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(labItems);
+            return View(labCategory);
         }
 
         // GET: LabItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.labItems == null)
+            if (id == null || _context.labCategories == null)
             {
                 return NotFound();
             }
 
-            var labItems = await _context.labItems
+            var labItems = await _context.labCategories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (labItems == null)
             {
@@ -145,14 +141,14 @@ namespace DockingAdminPanel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.labItems == null)
+            if (_context.labCategories == null)
             {
                 return Problem("Entity set 'BookingWebAppContext.labItems'  is null.");
             }
-            var labItems = await _context.labItems.FindAsync(id);
+            var labItems = await _context.labCategories.FindAsync(id);
             if (labItems != null)
             {
-                _context.labItems.Remove(labItems);
+                _context.labCategories.Remove(labItems);
             }
             
             await _context.SaveChangesAsync();
