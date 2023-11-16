@@ -92,353 +92,80 @@
 	function printReceipt() {
 		var printContent = `
 
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title> Order confirmation </title>
-<meta name="robots" content="noindex,nofollow" />
-<meta name="viewport" content="width=device-width; initial-scale=1.0;" />
-<style type="text/css">
-  @@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+	  <div class="container mt-4">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<h2 class="text-center mb-4">Patient Lab Result</h2>
 
-  body {
-    margin: 0;
-    padding: 0;
-    background: #e1e1e1;
-  }
+				<!-- Patient and Lab Information Side by Side -->
+				<div class="row">
+					<!-- Patient Information -->
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header">
+								<h4>Patient Information</h4>
+							</div>
+							<div class="card-body">
+								<p><strong>Patient Name:</strong> John Doe</p>
+								<p><strong>DOB:</strong> January 1, 1980</p>
+								<p><strong>Address:</strong> 123 Main St, Cityville</p>
+								<!-- Add more patient details as needed -->
+							</div>
+						</div>
+					</div>
 
-  div,
-  p,
-  a,
-  li,
-  td {
-    -webkit-text-size-adjust: none;
-  }
+					<!-- Lab Information -->
+					<div class="col-md-6">
+						<div class="card">
+							<div class="card-header">
+								<h4>Lab Information</h4>
+							</div>
+							<div class="card-body">
+								<p><strong>Lab Name:</strong> XYZ Diagnostics</p>
+								<p><strong>Address:</strong> 456 Lab St, Lab City</p>
+								<!-- Add more lab details as needed -->
+							</div>
+						</div>
+					</div>
+				</div>
 
-  .ReadMsgBody {
-    width: 100%;
-    background-color: #ffffff;
-  }
+				<!-- Lab Results -->
+				<div class="card mt-4">
+					<div class="card-header">
+						<h4>Lab Results</h4>
+					</div>
+					<div class="card-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Test</th>
+									<th>Result</th>
+									<th>Reference Range</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Complete Blood Count (CBC)</td>
+									<td>Normal</td>
+									<td>Varies</td>
+								</tr>
+								<tr>
+									<td>Cholesterol</td>
+									<td>200 mg/dL</td>
+									<td>&lt;200 mg/dL</td>
+								</tr>
+								<!-- Add more lab result entries as needed -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  .ExternalClass {
-    width: 100%;
-    background-color: #ffffff;
-  }
 
-  body {
-    width: 100%;
-    height: 100%;
-    background-color: #e1e1e1;
-    margin: 0;
-    padding: 0;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  html {
-    width: 100%;
-  }
-
-  p {
-    padding: 0 !important;
-    margin-top: 0 !important;
-    margin-right: 0 !important;
-    margin-bottom: 0 !important;
-    margin-left: 0 !important;
-  }
-
-  .visibleMobile {
-    display: none;
-  }
-
-  .hiddenMobile {
-    display: block;
-  }
-
-  @@media only screen and (max-width: 600px) {
-    body {
-      width: auto !important;
-    }
-
-    table[class=fullTable] {
-      width: 96% !important;
-      clear: both;
-    }
-
-    table[class=fullPadding] {
-      width: 85% !important;
-      clear: both;
-    }
-
-    table[class=col] {
-      width: 45% !important;
-    }
-
-    .erase {
-      display: none;
-    }
-  }
-
-  @@media only screen and (max-width: 420px) {
-    table[class=fullTable] {
-      width: 100% !important;
-      clear: both;
-    }
-
-    table[class=fullPadding] {
-      width: 85% !important;
-      clear: both;
-    }
-
-    table[class=col] {
-      width: 100% !important;
-      clear: both;
-    }
-
-    table[class=col] td {
-      text-align: left !important;
-    }
-
-    .erase {
-      display: none;
-      font-size: 0;
-      max-height: 0;
-      line-height: 0;
-      padding: 0;
-    }
-
-    .visibleMobile {
-      display: block !important;
-    }
-
-    .hiddenMobile {
-      display: none !important;
-    }
-  }
-</style>
-
-<!-- Header -->
-<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
-  <tr>
-    <td height="20"></td>
-  </tr>
-  <tr>
-    <td>
-      <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff" style="border-radius: 10px 10px 0 0;">
-        <tr class="hiddenMobile">
-          <td height="40"></td>
-        </tr>
-        <tr class="visibleMobile">
-          <td height="30"></td>
-        </tr>
-
-        <tr>
-          <td>
-            <table width="480" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
-              <tbody>
-                <tr>
-                  <td>
-                    <table width="220" border="0" cellpadding="0" cellspacing="0" align="left" class="col">
-                      <tbody>
-                        
-                        <tr class="hiddenMobile">
-                          <td height="40"></td>
-                        </tr>
-                        <tr class="visibleMobile">
-                          <td height="20"></td>
-                        </tr>
-                        <tr>
-                          <td style="font-size: 18px bold; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left;">
-                            A+ Clinics.
-                            <br> Rajjar charsadda Kpk.
-                          </td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-                    
-                    <table> 
-                    <tr>
-                          <td align="left"> <img src="http://www.supah.it/dribbble/017/logo.png" width="32" height="32" alt="logo" border="0" /></td>
-                        </tr>
-                    
-                    </table>
-
-                    <table width="220" border="0" cellpadding="0" cellspacing="0" align="right" class="col">
-                      <tbody>
-                        <tr class="visibleMobile">
-                          <td height="20"></td>
-                        </tr>
-                        <tr>
-                          <td height="5"></td>
-                        </tr>
-
-                        <tr>
-                        <tr class="hiddenMobile">
-                          <td height="50"></td>
-                        </tr>
-                        <tr class="visibleMobile">
-                          <td height="20"></td>
-                        </tr>
-    @if (Model.patient != null)
-    { 
-            <tr>
-                <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left; padding-left: 120px;">
-                    <small style="font-size: 21px;  letter-spacing: -1px; font-family: 'Open Sans', sans-serif; line-height: 0.1; vertical-align: top; text-align: right;">Patient Info </small>
-                    <small>Mr No #00</small>@Model.patient.Id<br />
-                            <small>Name #</small> @Model.patient.FirstName <br />
-                    <small>@DateTime.Now.Date</small> <br />
-                    <small>Gender #</small>@Model.patient.Sex <br />
-                    <small>Ordered By</small> <br />
-                    <small>Ordered On</small> <br />
-                    <small>Specimen No</small> <br />
-                    <small>Received in Lab</small> <br />
-                    <small>Verified On</small> <br />
-                </td>
-
-            </tr>
-    }
-
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<!-- /Header -->
-<!-- Order Details -->
-
-<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
-
-  <tbody>
-
-    <tr>
-      <td>
-        <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff">
-          <tbody>
-            <tr>
-            <tr class="hiddenMobile">
-              <td height="60"></td>
-            </tr>
-            <tr class="visibleMobile">
-              <td height="40"></td>
-            </tr>
-            <tr>
-              <td>
-                <table width="480" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
-                  <tbody>
-                    <tr style="background-color: lightgrey;">
-                      <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: black; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 10px 7px 0;" width="52%" align="left">
-                        Test
-                      </th>
-                      <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: black; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="left">
-                        <small>Resuts</small>
-                      </th>
-                      <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: black; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="center">
-                        History
-                      </th>
-                      <th style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: black; font-weight: bold; line-height: 1; vertical-align: top; padding: 0 0 7px;" align="right">
-                        Reference Range
-                      </th>
-                    </tr>
-                    <tr>
-                      <td height="1" style="background: #bebebe;" colspan="4"></td>
-                    </tr>
-                    <tr>
-                      <td height="10" colspan="4"></td>
-                    </tr>
-    @if (Model.patientsTests != null && Model.patientsTests.Count() > 0)
-    {
-        @foreach (var item in Model.patientsTests)
-        {
-             <tr>
-                                  <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: black;  line-height: 18px;  vertical-align: top; padding:10px 0; font-weight: bold;" class="article">
-                    @item.TestName
-                                  </td>
-                                            <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;"><small>@item.TestResult </small></td>
-                                  <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="center">0</td>
-                                            <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="right">@(item.NormalValue)</td>
-                                </tr>
-        }           }
-                    <tr>
-                      <td height="1" colspan="4" style="border-bottom:1px solid #e4e4e4"></td>
-                    </tr>
-                 
-                    <tr>
-                      <td height="1" colspan="4" style="border-bottom:1px solid #e4e4e4"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td height="20"></td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<!-- /Order Details -->
-<!-- Total -->
-<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
-  <tbody>
-
-    <tr>
-      <td>
-        <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff">
-          <tbody>
-            <tr>
-              <td>
-
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<!-- /Total -->
-<!-- Information -->
-<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#e1e1e1">
-  <tbody>
-
-    <tr>
-      <td>
-        <table width="600" border="0" cellpadding="0" cellspacing="0" align="center" class="fullTable" bgcolor="#ffffff">
-          <tbody>
-            <tr>
-            <tr class="hiddenMobile">
-              <td height="60"></td>
-            </tr>
-            <tr class="visibleMobile">
-              <td height="40"></td>
-            </tr>
-            <tr>
-              <td>
-                <table width="480" border="0" cellpadding="0" cellspacing="0" align="center" class="fullPadding">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <table border="0" cellpadding="0" cellspacing="0" align="left" class="col" style="width:" 450px "
-
-                              <tbody>
-                                <tr>
-                                  <td style=" font-size: 11px; font-family: 'Open Sans' , sans-serif; color: #5b5b5b; line-height: 1; vertical-align: top; ">
-                              
-                                    <tr> 
-                                      <th>CHARGE TECHNICIAN : Hamza
-                                    
-                                    </tr>
-                              
-                              </tbody>
-                            </table>
+    
+ 
 				`;
 
 		var originalContent = document.body.innerHTML;
