@@ -25,11 +25,18 @@ namespace DockingAdminPanel.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-              return _context.patients != null ? 
-                          View(await _context.patients.ToListAsync()) :
+            var todaypatients = await _context.patients.Where(q => q.AddedDate.Date == DateTime.Now.Date && q.IsDeleted==false && q.LabAppointment== "Doctor Appointment").ToListAsync();
+              return todaypatients != null ? 
+                          View(todaypatients) :
                           Problem("Entity set 'BookingWebAppContext.patients'  is null.");
         }
-
+        public async Task<IActionResult> LabIndex()
+        {
+            var todaypatients = await _context.patients.Where(q => q.AddedDate.Date == DateTime.Now.Date && q.IsDeleted == false && q.LabAppointment== "Lab Appointment").ToListAsync();
+            return todaypatients != null ?
+                        View(todaypatients) :
+                        Problem("Entity set 'BookingWebAppContext.patients'  is null.");
+        }
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -60,7 +67,7 @@ namespace DockingAdminPanel.Controllers
 		{
 			var getalltest= await _context.labItems.ToListAsync();
             var patient = await _context.patients.FindAsync(id);
-            var patientstest=await _context.patientsTests.Where(r=>r.PatientId==id).ToListAsync();
+            var patientstest=await _context.patientsTests.Where(r=>r.PatientId==id && r.addedDatetime==DateTime.Now).ToListAsync();
 			TestAppointmentsViewModel viewModel = new TestAppointmentsViewModel();
             viewModel.patient = patient;
             viewModel.labItems = getalltest;
@@ -85,11 +92,24 @@ namespace DockingAdminPanel.Controllers
 		public async Task<IActionResult> CollectTestSamples(int id)
         {
             var getalltest = await _context.labItems.ToListAsync();
-            //here filter by today date
-            var patients = await _context.patients.ToListAsync();
-            var patientstest = await _context.patientsTests.Where(r => r.PatientId == id).ToListAsync();
+            var patientstest = await _context.patientsTests.Where(r => r.Paid==true && r.addedDatetime.Date==DateTime.Now.Date).ToListAsync();
+            var patients = await _context.patients.Where(r => r.AddedDate.Date == DateTime.Now.Date && r.IsDeleted == false).ToListAsync();
+            var today = DateTime.Now.Date;
+
+            // First, get the IDs of patients that meet the criteria from patientsTests
+            var patientTestIds = await _context.patientsTests
+                .Where(pt => pt.Paid == true && pt.addedDatetime.Date == today)
+                .Select(pt => pt.PatientId) // Assuming there's a property like PatientId in patientsTests
+                .ToListAsync();
+
+            // Now, filter the patients using the collected IDs
+            var filteredPatients = await _context.patients
+                .Where(p => p.AddedDate.Date == today && p.IsDeleted == false && patientTestIds.Contains(p.Id))
+                .ToListAsync();
+
+ 
             TestAppointmentsViewModel viewModel = new TestAppointmentsViewModel();
-            viewModel.patients = patients;
+            viewModel.patients = filteredPatients;
             viewModel.labItems = getalltest;
             viewModel.patientsTests = patientstest;
             return View(viewModel);
@@ -855,6 +875,12 @@ namespace DockingAdminPanel.Controllers
 
         //    return RedirectToAction("Index");
         //}
+        public async Task<IActionResult> CreateLab(Patient patient)
+        {
+            var model = new Patient();
+            model.Doctors = await _context.doctors.ToListAsync();
+            return View(patient);
+        }
         [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreatePaid(Patient patient)
@@ -868,8 +894,16 @@ namespace DockingAdminPanel.Controllers
                 counter = tokens.Counter;
                 tokens.Counter = counter + 1;
                 patient.TokenNumber = counter;
+                patient.AddedDate = DateTime.Now;
+                patient.LabAppointment = "Doctor Appointment";
                 _context.Update(tokens);
                 _context.SaveChanges();
+            }
+            else
+            {
+                patient.TokenNumber = counter+1;
+                patient.AddedDate = DateTime.Now;
+                patient.LabAppointment = "Doctor Appointment";
             }
             _context.Add(patient);
 			await _context.SaveChangesAsync();
@@ -888,7 +922,7 @@ namespace DockingAdminPanel.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreateLabUnPaid(Patient patient)
 		{
-			patient.PaymentStatus = false;
+			patient.PaymentStatus = true;
 
 			var tokens = _context.patientTokens.FirstOrDefault();
 			int counter = 0;
@@ -897,11 +931,21 @@ namespace DockingAdminPanel.Controllers
 				counter = tokens.Counter;
 				tokens.Counter = counter + 1;
 				patient.TokenNumber = counter;
-				_context.Update(tokens);
+                
+                _context.Update(tokens);
 				_context.SaveChanges();
-			}
-			_context.Add(patient);
-			await _context.SaveChangesAsync();
+            }
+            else
+            {
+                patient.AddedDate = DateTime.Now;
+                patient.LabAppointment = "Lab Appointment";
+                patient.TokenNumber = counter+1;
+
+            }
+          
+            _context.Add(patient);
+           
+            await _context.SaveChangesAsync();
 
 
 			return RedirectToAction("AddTestsAppointments", new { id = patient.Id });
@@ -929,7 +973,8 @@ namespace DockingAdminPanel.Controllers
             }
 		
 			patient.TokenNumber=counter;
-
+            patient.AddedDate = DateTime.Now;
+            patient.LabAppointment = "Doctor Appointment";
             _context.Add(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -1088,7 +1133,8 @@ namespace DockingAdminPanel.Controllers
             var patient = await _context.patients.FindAsync(id);
             if (patient != null)
             {
-                _context.patients.Remove(patient);
+                patient.IsDeleted = true;
+                _context.patients.Update(patient);
             }
             
             await _context.SaveChangesAsync();

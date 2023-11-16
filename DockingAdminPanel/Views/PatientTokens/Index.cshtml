@@ -35,10 +35,14 @@
             <td>
                 @Html.DisplayFor(modelItem => Model.TotalCounterAddedDate)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@Model.Id">Reset Counter</a> |
-            
-            </td>
+            @if (Model !=null)
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@Model.Id">Reset Counter</a> |
+
+                </td>
+            }
+           
         </tr>
     </tbody>
 </table>

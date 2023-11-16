@@ -24,6 +24,7 @@
                         <th>
                             Token Number
                         </th>
+                        <th>Type</th>
             <th>
                Name
             </th>
@@ -78,6 +79,9 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.TokenNumber)
                             </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LabAppointment)
+                            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -117,15 +121,7 @@
 
 
 
-<style>
-    @@media print {
-        /* Define print-specific styles here */
-        #receiptContent {
-            font-size: 18pt; /* Adjust font size for printing */
-            margin: 30px; /* Add margins for better readability */
-        }
-    }
-</style>
+ 
 
 <script>
     //function printReceipt(element) {
@@ -238,83 +234,188 @@
 //    document.body.innerHTML = originalContent;
 //}
 
- function printReceipt(element) {
+ function printReceipt(item) {
+        var tr = findClosestTableRow(item); // Find the parent tr element
+        if (!tr) {
+            console.error("Could not find the closest table row.");
+            return;
+        }
     //var tr = element.closest('tr'); // Find the parent tr element
-    //var fullname = tr.getAttribute('data-fullname');
-    //var fee = tr.getAttribute('data-fee');
-    //var token = tr.getAttribute('data-token');
+    var fullname = tr.getAttribute('data-fullname');
+    var fee = tr.getAttribute('data-fee');
+    var token = tr.getAttribute('data-token');
 
    
 
     var printContent = `
-                    <header>
-                <h1>Invoice</h1>
-                <address contenteditable>
-                    <p>Jonathan Neal</p>
-                    <p>101 E. Chapman Ave<br>Orange, CA 92866</p>
-                    <p>(800) 555-1234</p>
-                </address>
-              
-            </header>
-            <article>
-                <h1>Recipient</h1>
 
-                <table   class="inventory">
-                    <tr>
-                        <th><span contenteditable>Invoice #</span></th>
-                        <td><span contenteditable>101138</span></td>
-                    </tr>
-                    <tr>
-                        <th><span contenteditable>Date</span></th>
-                        <td><span contenteditable>January 1, 2012</span></td>
-                    </tr>
-                    <tr>
-                        <th><span contenteditable>Amount Due</span></th>
-                        <td><span id="prefix" contenteditable>$</span><span>600.00</span></td>
-                    </tr>
-                </table>
-                <table class="inventory">
-                    <thead>
-                        <tr>
-                            <th><span contenteditable>Item</span></th>
-                            <th><span contenteditable>Description</span></th>
-                            <th><span contenteditable>Rate</span></th>
-                            <th><span contenteditable>Quantity</span></th>
-                            <th><span contenteditable>Price</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a class="cut">-</a><span contenteditable>Front End Consultation</span></td>
-                            <td><span contenteditable>Experience Review</span></td>
-                            <td><span data-prefix>$</span><span contenteditable>150.00</span></td>
-                            <td><span contenteditable>4</span></td>
-                            <td><span data-prefix>$</span><span>600.00</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a class="add">+</a>
-                <table class="balance">
-                    <tr>
-                        <th><span contenteditable>Total</span></th>
-                        <td><span data-prefix>$</span><span>600.00</span></td>
-                    </tr>
-                    <tr>
-                        <th><span contenteditable>Amount Paid</span></th>
-                        <td><span data-prefix>$</span><span contenteditable>0.00</span></td>
-                    </tr>
-                    <tr>
-                        <th><span contenteditable>Balance Due</span></th>
-                        <td><span data-prefix>$</span><span>600.00</span></td>
-                    </tr>
-                </table>
-            </article>
-            <aside>
-                <h1><span contenteditable>Additional Notes</span></h1>
-                <div contenteditable style="background-color:#000;color:#fff">
-                    <p>A finance charge of 1.5% will be made on unpaid balances after 30 days.</p>
-                </div>
-            </aside>
+            <style type="text/css">
+        #invoice-POS{
+           font-family: Arial, sans-serif;
+      padding:0mm;
+      margin: 0 auto;
+      width: 88mm;
+      background: #FFF;
+
+
+    ::selection {background: #f31544; color: #FFF;}
+    ::moz-selection {background: #f31544; color: #FFF;}
+    h1{
+      font-size: 1.5em;
+      color: #222;
+    }
+    h2{font-size: .9em;}
+    h3{
+      font-size: 1.2em;
+      font-weight: 300;
+      line-height: 2em;
+    }
+    p{
+      font-size: .7em;
+      color: #666;
+      line-height: 1.2em;
+    }
+
+    #top, #mid,#bot{ /* Targets all id with 'col-' */
+      border-bottom: 1px solid #EEE;
+    }
+
+    #top{min-height: 100px;}
+    #mid{min-height: 80px;}
+    #bot{ min-height: 50px;}
+
+    #top .logo{
+      //float: left;
+        height: 60px;
+        width: 60px;
+        background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
+        background-size: 60px 60px;
+    }
+    .clientlogo{
+      float: left;
+        height: 60px;
+        width: 60px;
+        background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+        background-size: 60px 60px;
+      border-radius: 50px;
+    }
+    .info{
+      display: block;
+      //float:left;
+      margin-left: 0;
+    }
+    .title{
+      float: right;
+    }
+    .title p{text-align: right;}
+    table{
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td{
+      //padding: 5px 0 5px 15px;
+      //border: 1px solid #EEE
+    }
+    .tabletitle{
+      //padding: 5px;
+      font-size: .5em;
+      background: #EEE;
+    }
+    .service{border-bottom: 1px solid #EEE;}
+    .item{width: 24mm;}
+    .itemtext{font-size: .5em;}
+
+    #legalcopy{
+      margin-top: 5mm;
+    }
+
+
+
+    }
+    </style>
+
+    <!-- Header -->
+
+      <div id="invoice-POS">
+
+        <center id="top">
+          <div class="logo"></div>
+          <div class="info">
+            <h2>A+ Clinics</h2>
+          </div><!--End Info-->
+        </center><!--End InvoiceTop-->
+
+        <div id="mid">
+          <div class="info">
+            <p>
+                Address : Rajjar charsadda, kpk 24420</br>
+                Email   : ahmad@gmail.com</br>
+                Phone   : 555-555-5555</br>
+            </p>
+          </div>
+        </div><!--End Invoice Mid-->
+
+        <div id="bot">
+
+                        <div id="table">
+                            <table>
+                                <tr class="tabletitle">
+                                    <td class="item"><h2>Item</h2></td>
+                                   
+                                    <td class="Rate"><h2>Sub Total</h2></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Communication</p></td>
+                                    <td class="tableitem"><p class="itemtext">5</p></td>
+                                    <td class="tableitem"><p class="itemtext">$375.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Asset Gathering</p></td>
+                                    <td class="tableitem"><p class="itemtext">3</p></td>
+                                    <td class="tableitem"><p class="itemtext">$225.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Design Development</p></td>
+                                    <td class="tableitem"><p class="itemtext">5</p></td>
+                                    <td class="tableitem"><p class="itemtext">$375.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Animation</p></td>
+                                    <td class="tableitem"><p class="itemtext">20</p></td>
+                                    <td class="tableitem"><p class="itemtext">$1500.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Animation Revisions</p></td>
+                                    <td class="tableitem"><p class="itemtext">10</p></td>
+                                    <td class="tableitem"><p class="itemtext">$750.00</p></td>
+                                </tr>
+
+
+                                <tr class="tabletitle">
+                                    <td></td>
+                                    <td class="Rate"><h2>tax</h2></td>
+                                    <td class="payment"><h2>$419.25</h2></td>
+                                </tr>
+
+                                <tr class="tabletitle">
+                                    <td></td>
+                                    <td class="Rate"><h2>Total</h2></td>
+                                    <td class="payment"><h2>$3,644.25</h2></td>
+                                </tr>
+
+                            </table>
+                        </div><!--End Table-->
+
+                       
+
+                    </div><!--End InvoiceBot-->
+      </div><!--End Invoice-->
+
     `;
 
     var originalContent = document.body.innerHTML;
@@ -322,164 +423,32 @@
 
     // Apply CSS styles to the receipt content
     var style = document.createElement('style');
-    style.innerHTML = ` /* reset */
-
-*
-{
-	border: 0;
-	box-sizing: content-box;
-	color: inherit;
-	font-family: inherit;
-	font-size: inherit;
-	font-style: inherit;
-	font-weight: inherit;
-	line-height: inherit;
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	text-decoration: none;
-	vertical-align: top;
-}
-
-/* content editable */
-
-*[contenteditable] { border-radius: 0.5em; min-width: 0em; outline: 0; }
-
-*[contenteditable] { cursor: pointer; }
-
-*[contenteditable]:hover, *[contenteditable]:focus, td:hover *[contenteditable], td:focus *[contenteditable], img.hover { background: #DEF; box-shadow: 0 0 0em 0.5em #DEF; }
-
-span[contenteditable] { display: inline-block; }
-
-/* heading */
-
-h1 { font: bold 100% sans-serif; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
-
-/* table */
-
-table { font-size: 65%;font: bold ; table-layout: fixed; width: 120%; }
-table { border-collapse: separate; border-spacing: 2px; }
-th, td { border-width: 1px; padding: 0.5em; position: relative; text-align: left; }
-th, td { border-radius: 0.25em; border-style: solid; }
-th { background: #000; color:#fff; border-color: #BBB; }
-td { border-color: #DDD;background: #111;font: bold; color:#fff; }
-
-/* page */
-
-html { font: 15px/1 'Roboto',font: bold, Roboto; overflow: auto; padding: 0.2mm; }
-html { background: #999; cursor: default; }
-
-body { box-sizing: border-box; height: ; margin: 0 auto; overflow: hidden;  width: 80mm; }
-body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); }
-
-/* header */
-
-header { margin: 0 0 1em; }
-header:after { clear: both; content: ""; display: table; }
-
-header h1 { background: #000; border-radius: 0.25em; color: #FFF; margin: 0 0 0em; padding: 0.5em 0; }
-header address { float: left; font-size: 75%; font-style: bold; line-height: 0.95; margin: 0.2em 0.1em 0.1em 0.1em;font: bold }
-header address p { margin: 0 0 0.25em; }
-header span, header img { display: block; float: right; }
-header span { margin: 0 0 0em 0em; max-height: 25%; max-width: 60%; position: relative; }
-header img { max-height: 100%; max-width: 100%; }
-header input { cursor: pointer; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }
-
-/* article */
-
-article, article address, table.meta, table.inventory { margin: 0 0 0em; }
-article:after { clear: both; content: ""; display: table; }
-article h1 { clip: rect(0 0 0 0); position: absolute; }
-
-article address { float: left; font-size: 125%; font-weight: bold; }
-
-/* table meta & balance */
-
-table.meta, table.balance { float: right; width: 36%; }
-table.meta:after, table.balance:after { clear: both; content: ""; display: table; }
-
-/* table meta */
-
-table.meta th { width: 40%; }
-table.meta td { width: 60%; }
-
-/* table items */
-
-table.inventory { clear: both; width: 100%; }
-table.inventory th { font-weight: bold; text-align: center; }
-
-table.inventory td:nth-child(1) { width: 26%; }
-table.inventory td:nth-child(2) { width: 38%; }
-table.inventory td:nth-child(3) { text-align: right; width: 12%; }
-table.inventory td:nth-child(4) { text-align: right; width: 12%; }
-table.inventory td:nth-child(5) { text-align: right; width: 12%; }
-
-/* table balance */
-
-table.balance th, table.balance td { width: 50%; }
-table.balance td { text-align: right; }
-
-/* aside */
-
-aside h1 { border: none; border-width: 0 0 1px; margin: 0 0 1em; }
-aside h1 { border-color: #999; border-bottom-style: solid; }
-
-/* javascript */
-
-.add, .cut
-{
-	border-width: 1px;
-	display: block;
-	font-size: .8rem;
-	padding: 0.25em 0.5em;	
-	float: left;
-	text-align: center;
-	width: 0.6em;
-}
-
-.add, .cut
-{
-	background: #9AF;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-	background-image: -moz-linear-gradient(#00ADEE 5%, #0078A5 100%);
-	background-image: -webkit-linear-gradient(#00ADEE 5%, #0078A5 100%);
-	border-radius: 0.5em;
-	border-color: #0076A3;
-	color: #FFF;
-	cursor: pointer;
-	font-weight: bold;
-	text-shadow: 0 -1px 2px rgba(0,0,0,0.333);
-}
-
-.add { margin: -2.5em 0 0; }
-
-.add:hover { background: #00ADEE; }
-
-.cut { opacity: 0; position: absolute; top: 0; left: -1.5em; }
-.cut { -webkit-transition: opacity 100ms ease-in; }
-
-tr:hover .cut { opacity: 1; }
-
-@@media print {
-	* { -webkit-print-color-adjust: exact; }
-	html { background: none; padding: 0; }
-	body { box-shadow: none; margin: 0; }
-	span:empty { display: none; }
-	.add, .cut { display: none; }
-}
-
-@@page { margin: 0; }
-    `;
+      
     document.head.appendChild(style);
 
     // Print the content
-        window.print({ silent: true, onload: function () { window.location.reload(); } });
+        window.print( );
 
     // Restore the original content
     document.body.innerHTML = originalContent;
 }
 
-   
+    function findClosestTableRow(item) {
+        // Find the closest <tr> element by navigating up the DOM hierarchy from the button
+        var button = document.querySelector(`[onclick="printReceipt('${item}')"]`);
+        if (!button) {
+            console.error("Could not find the button associated with the item.");
+            return null;
+        }
+
+        var tr = button.closest('tr');
+        if (!tr) {
+            console.error("Could not find the closest table row.");
+            return null;
+        }
+
+        return tr;
+    }
 
 
 </script>
