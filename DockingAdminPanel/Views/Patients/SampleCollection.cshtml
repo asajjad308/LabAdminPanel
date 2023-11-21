@@ -18,10 +18,25 @@
 @if (Model.patient != null)
 {
 	<h5>Name:@Model.patient.FullName</h5>
-	<h5>Referred By:@Model.patient.FullName</h5>
+	if (Model.patient.DoctorId==0)
+	{
+		<h5>Referred By:External</h5>
+	}
+	else
+	{   
+		 foreach (var item in Model.patient.Doctors)
+		{
+			if (item.Id==Model.patient.DoctorId)
+			{
+				<h5>Referred By:Dr.@item.FullName</h5>
+			}
+		}
+		
+	}
+
 
 }
- 
+
 
 <div class="card mt-5">
 
@@ -38,7 +53,7 @@
 					<tr>
 						<th>Test Name</th>
 						
-						<th>Sample Name</th>
+						<th>Specimen</th>
 						<th>Collection Time</th>
 						<th>Result</th>
 						<th>Normal Value</th>
@@ -91,81 +106,161 @@
 	}
 	function printReceipt() {
 		var printContent = `
+			<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Your Title</title>
+		<style>
+	@@media print {
+				body, html {
+					height: 100%;
+					margin: 0;
+					padding: 0;
+					size: A4 portrait; /* or landscape */
+				}
 
-	  <div class="container mt-4">
-		<div class="row">
-			<div class="col-md-8 offset-md-2">
-				<h2 class="text-center mb-4">Patient Lab Result</h2>
+				.container {
+					width: 100%;
+					max-width: 100%;
+					height: 100%;
+					margin: 0;
+					padding: 0;
+				}
 
-				<!-- Patient and Lab Information Side by Side -->
-				<div class="row">
-					<!-- Patient Information -->
-					<div class="col-md-6">
-						<div class="card">
-							<div class="card-header">
-								<h4>Patient Information</h4>
-							</div>
-							<div class="card-body">
-								<p><strong>Patient Name:</strong> John Doe</p>
-								<p><strong>DOB:</strong> January 1, 1980</p>
-								<p><strong>Address:</strong> 123 Main St, Cityville</p>
-								<!-- Add more patient details as needed -->
-							</div>
+				/* Add other print styles as needed */
+			}
+		</style>
+	</head>
+	 <div class="container">
+		<div class="card">
+			<div class="card-header">
+				A+ Clinics
+				<strong class="float-right">@DateTime.Now</strong>
+
+
+			</div>
+			<div class="card-body">
+				<div class="row mb-4">
+					<div class="col-sm-6">
+
+						<div>
+							<strong>A+ Clinics</strong>
 						</div>
+						<div>Rajjar</div>
+						<div>Charsadda, Kpk</div>
+						<div>Email: info@webz.com.pl</div>
+						<div>Phone: +48 444 666 3333</div>
 					</div>
 
-					<!-- Lab Information -->
-					<div class="col-md-6">
-						<div class="card">
-							<div class="card-header">
-								<h4>Lab Information</h4>
-							</div>
-							<div class="card-body">
-								<p><strong>Lab Name:</strong> XYZ Diagnostics</p>
-								<p><strong>Address:</strong> 456 Lab St, Lab City</p>
-								<!-- Add more lab details as needed -->
-							</div>
+					<div class="col-sm-6">
+						<h6 class="mb-3">Name:@Model.patient.FullName</h6>
+						<div>
+							<strong>MrNo:@Model.patient.Id</strong>
 						</div>
+						<div>
+	@if (Model.patient.DoctorId == 0)
+	{
+								<h6>Ordered By:External</h6>
+	}
+	else
+	{
+		foreach (var item in Model.patient.Doctors)
+		{
+			if (item.Id == Model.patient.DoctorId)
+			{
+													<h6>Ordered By:Dr.@item.FullName</h6>
+			}
+		}
+
+	}
+						</div>
+						<div>Age/Gender: @Model.patient.Sex</div>
+						<div>Specimen No:
+	@foreach (var item in Model.patientsTests)
+	{
+		@item.Id
+	},
+							</div>
+						<div>Ordered On: @Model.patient.AddedDate</div>
+						<div>Phone:  @Model.patient.PhoneNumber</div>
 					</div>
+
+
+
 				</div>
 
-				<!-- Lab Results -->
-				<div class="card mt-4">
-					<div class="card-header">
-						<h4>Lab Results</h4>
+					<div class="card mt-5">
+						<div class="category">
+	@*<strong>Cbc</strong>*@
+						</div>
+						<div class="table-responsive-sm">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th class="center">#</th>
+										<th>Test</th>
+										<th>Results</th>
+
+										<th class="right">History</th>
+										<th class="center">Range</th>
+
+									</tr>
+								</thead>
+								<tbody>
+	@foreach (var item in Model.patientsTests)
+	{
+											<tr>
+												<td class="center">@item.Id</td>
+												<td class="left strong">@item.TestName</td>
+												<td class="left">
+				@item.TestResult @foreach (var labitem in Model.labItems)
+				{
+					if (item.TestId == labitem.Id)
+					{
+						@labitem.Units
+					}
+				}
+												</td>
+
+												<td class="right"></td>
+												<td class="center">@item.NormalValue</td>
+
+											</tr>
+	}
+
+
+								</tbody>
+							</table>
+						</div>
 					</div>
-					<div class="card-body">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Test</th>
-									<th>Result</th>
-									<th>Reference Range</th>
-								</tr>
-							</thead>
+
+
+				<footer class="row">
+					<div class="col-lg-4 col-sm-5">
+					</div>
+
+					<div class="col-lg-4 col-sm-5 ml-auto">
+						<table class="table table-clear">
 							<tbody>
+
+
+
 								<tr>
-									<td>Complete Blood Count (CBC)</td>
-									<td>Normal</td>
-									<td>Varies</td>
+									<td class="left">
+										<strong>Charge Technician:@User.Identity.Name</strong>
+									</td>
+
 								</tr>
-								<tr>
-									<td>Cholesterol</td>
-									<td>200 mg/dL</td>
-									<td>&lt;200 mg/dL</td>
-								</tr>
-								<!-- Add more lab result entries as needed -->
 							</tbody>
 						</table>
+
 					</div>
-				</div>
+
+				</footer>
+
 			</div>
 		</div>
 	</div>
-
-
-    
- 
 				`;
 
 		var originalContent = document.body.innerHTML;

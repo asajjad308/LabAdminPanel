@@ -67,17 +67,17 @@
                     <span asp-validation-for="DoctorId" class="text-danger"></span>
                 </div>
             </div>
-            <div class="form-group">
+         @*   <div class="form-group">
                 <label class="control-label"></label>
                 <div class="form-check">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="External" /> External
                     </label>
                 </div>
-            </div>
+            </div>*@
             <div class="form-group">
                 <button id="PaidAppointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitClick()">Paid Appointment</button>
-                <button id="Appointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitUnpaidClick()">Appointment</button>
+                <button id="Appointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitUnpaidClick()">Unpaid Appointment</button>
  
                 <a asp-action="Index" class="btn btn-primary btn-block rounded-pill font-size-16">Back to List</a>
             </div>

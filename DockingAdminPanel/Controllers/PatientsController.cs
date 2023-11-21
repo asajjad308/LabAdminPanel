@@ -82,11 +82,15 @@ namespace DockingAdminPanel.Controllers
 			var getalltest = await _context.labItems.ToListAsync();
 			//here filter by today date
 			var patient = await _context.patients.FindAsync(id);
+            var doctors = await _context.doctors.ToListAsync();
+            var labcat=await _context.labCategories.ToListAsync();
+            patient.Doctors = doctors;
 			var patientstest = await _context.patientsTests.Where(r => r.PatientId == id && r.Paid==true).ToListAsync();
 			TestAppointmentsViewModel viewModel = new TestAppointmentsViewModel();
 			viewModel.patient = patient;
 			viewModel.labItems = getalltest;
 			viewModel.patientsTests = patientstest;
+            viewModel.labCategories = labcat;
 			return View(viewModel);
 		}
 		public async Task<IActionResult> CollectTestSamples(int id)
@@ -879,7 +883,7 @@ namespace DockingAdminPanel.Controllers
         {
             var model = new Patient();
             model.Doctors = await _context.doctors.ToListAsync();
-            return View(patient);
+            return View(model);
         }
         [HttpPost]
 		[ValidateAntiForgeryToken]

@@ -1,0 +1,462 @@
+﻿@model IEnumerable<DockingAdminPanel.Models.Patient>
+
+@{
+    ViewData["Title"] = "Index";
+}
+ 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+ 
+<div class="card mt-5">
+
+    <div class="card-header">
+       
+
+        <a class="btn btn-primary btn-block float-start" asp-action="Create"><i class='bx bx-add-to-queue bx-tada bx-flip-vertical '></i>Add Patients</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>Status</th>
+                        <th>
+                            Token Number
+                        </th>
+                        <th>Type</th>
+            <th>
+               Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sex)
+            </th>
+          
+                        <th>
+                            @Html.DisplayNameFor(model => model.Age)
+                        </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+        @*    <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalRecordNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InsuranceProvider)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PolicyNumber)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Illness)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) 
+{
+                        <tr data-fullname="@item.FullName" data-fee="@item.Fee" data-token="@item.TokenNumber">
+                            <td style=@(item.PaymentStatus==true?"background-color:green":"background-color:red")>
+                @(item.PaymentStatus==true?"Paid":"UnPaid")
+            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TokenNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LabAppointment)
+                            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+         
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+ 
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Illness)
+            </td>
+            
+            <td>
+                                <a onclick="printReceipt('@item')" class="btn btn-success" style="background-color:#fcbf49">Pay</a>
+                <a asp-action="AddTestsAppointments" class="btn btn-outline-primary" asp-route-id="@item.Id">Add Tests</a> |
+                                <a asp-action="Edit" class="btn btn-outline-secondary" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" class="btn btn-outline-warning" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
+
+                              
+                            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div></div></div>
+
+
+
+ 
+
+<script>
+    //function printReceipt(element) {
+    //    var tr = element.closest('tr'); // Find the parent tr element
+    //    var fullname = tr.getAttribute('data-fullname');
+    //    var fee = tr.getAttribute('data-fee');
+
+    //    console.log(fullname);
+
+    //    var printContent = `
+    //        <div class="receipt">
+    //            <h1>Receipt</h1>
+    //            <hr />
+    //            <p><strong>Name:</strong> ${fullname}</p>
+    //            <p><strong>Fee:</strong> ${fee}</p>
+    //            <!-- Add other dynamic content here -->
+    //        </div>
+    //    `;
+
+    //    var originalContent = document.body.innerHTML;
+    //    document.body.innerHTML = printContent;
+
+    //    // Apply CSS styles to the receipt content
+    //    var style = document.createElement('style');
+    //    style.innerHTML = `
+    //        .receipt {
+    //            font-family: Arial, sans-serif;
+    //            background-color: #f2f2f2;
+    //            padding: 20px;
+    //            border: 1px solid #ccc;
+    //            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    //            margin: 20px;
+    //        }
+    //        h1 {
+    //            font-size: 24px;
+    //            text-align: center;
+    //        }
+    //        p {
+    //            font-size: 16px;
+    //        }
+    //        hr {
+    //            border: 1px solid #ccc;
+    //        }
+    //    `;
+    //    document.head.appendChild(style);
+
+    //    // Print the content
+    //    window.print();
+
+    //    // Restore the original content
+    //    document.body.innerHTML = originalContent;
+    //}
+//    function printReceipt(element) {
+//    var tr = element.closest('tr'); // Find the parent tr element
+//    var fullname = tr.getAttribute('data-fullname');
+//    var fee = tr.getAttribute('data-fee');
+
+//    console.log(fullname);
+
+//    var printContent = `
+//        <div class="receipt">
+//            <h1>Receipt</h1>
+//            <hr />
+//            <p><strong>Name:</strong> ${fullname}</p>
+//            <p><strong>Fee:</strong> ${fee}</p>
+//            <!-- Add other dynamic content here -->
+//        </div>
+//    `;
+
+//    var originalContent = document.body.innerHTML;
+//    document.body.innerHTML = printContent;
+
+//    // Apply CSS styles to the receipt content
+//    var style = document.createElement('style');
+//    style.innerHTML = `
+//        @@page {
+//            size: auto;
+//            margin: 0mm;
+//        }
+//        body {
+//            margin: 0;
+//            padding: 0;
+//        }
+//        .receipt {
+//            font-family: Arial, sans-serif;
+//            background-color: #f2f2f2;
+//            padding: 20px;
+//            border: 1px solid #ccc;
+//            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+//            margin: 0 auto; /* Center horizontally */
+//            max-width: 80%; /* Limit maximum width */
+//        }
+//        h1 {
+//            font-size: 24px;
+//            text-align: center;
+//        }
+//        p {
+//            font-size: 16px;
+//        }
+//        hr {
+//            border: 1px solid #ccc;
+//        }
+//    `;
+//    document.head.appendChild(style);
+
+//    // Print the content
+//    window.print();
+
+//    // Restore the original content
+//    document.body.innerHTML = originalContent;
+//}
+
+ function printReceipt(item) {
+        var tr = findClosestTableRow(item); // Find the parent tr element
+        if (!tr) {
+            console.error("Could not find the closest table row.");
+            return;
+        }
+    //var tr = element.closest('tr'); // Find the parent tr element
+    var fullname = tr.getAttribute('data-fullname');
+    var fee = tr.getAttribute('data-fee');
+    var token = tr.getAttribute('data-token');
+
+   
+
+    var printContent = `
+
+            <style type="text/css">
+        #invoice-POS{
+           font-family: Arial, sans-serif;
+      padding:0mm;
+      margin: 0 auto;
+      width: 88mm;
+      background: #FFF;
+
+
+    ::selection {background: #f31544; color: #FFF;}
+    ::moz-selection {background: #f31544; color: #FFF;}
+    h1{
+      font-size: 1.5em;
+      color: #222;
+    }
+    h2{font-size: .9em;}
+    h3{
+      font-size: 1.2em;
+      font-weight: 300;
+      line-height: 2em;
+    }
+    p{
+      font-size: .7em;
+      color: #666;
+      line-height: 1.2em;
+    }
+
+    #top, #mid,#bot{ /* Targets all id with 'col-' */
+      border-bottom: 1px solid #EEE;
+    }
+
+    #top{min-height: 100px;}
+    #mid{min-height: 80px;}
+    #bot{ min-height: 50px;}
+
+    #top .logo{
+      //float: left;
+        height: 60px;
+        width: 60px;
+        background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
+        background-size: 60px 60px;
+    }
+    .clientlogo{
+      float: left;
+        height: 60px;
+        width: 60px;
+        background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+        background-size: 60px 60px;
+      border-radius: 50px;
+    }
+    .info{
+      display: block;
+      //float:left;
+      margin-left: 0;
+    }
+    .title{
+      float: right;
+    }
+    .title p{text-align: right;}
+    table{
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td{
+      //padding: 5px 0 5px 15px;
+      //border: 1px solid #EEE
+    }
+    .tabletitle{
+      //padding: 5px;
+      font-size: .5em;
+      background: #EEE;
+    }
+    .service{border-bottom: 1px solid #EEE;}
+    .item{width: 24mm;}
+    .itemtext{font-size: .5em;}
+
+    #legalcopy{
+      margin-top: 5mm;
+    }
+
+
+
+    }
+    </style>
+
+    <!-- Header -->
+
+      <div id="invoice-POS">
+
+        <center id="top">
+          <div class="logo"></div>
+          <div class="info">
+            <h2>A+ Clinics</h2>
+          </div><!--End Info-->
+        </center><!--End InvoiceTop-->
+
+        <div id="mid">
+          <div class="info">
+            <p>
+                Address : Rajjar charsadda, kpk 24420</br>
+                Email   : ahmad@gmail.com</br>
+                Phone   : 555-555-5555</br>
+            </p>
+          </div>
+        </div><!--End Invoice Mid-->
+
+        <div id="bot">
+
+                        <div id="table">
+                            <table>
+                                <tr class="tabletitle">
+                                    <td class="item"><h2>Item</h2></td>
+                                   
+                                    <td class="Rate"><h2>Sub Total</h2></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Communication</p></td>
+                                    <td class="tableitem"><p class="itemtext">5</p></td>
+                                    <td class="tableitem"><p class="itemtext">$375.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Asset Gathering</p></td>
+                                    <td class="tableitem"><p class="itemtext">3</p></td>
+                                    <td class="tableitem"><p class="itemtext">$225.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Design Development</p></td>
+                                    <td class="tableitem"><p class="itemtext">5</p></td>
+                                    <td class="tableitem"><p class="itemtext">$375.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Animation</p></td>
+                                    <td class="tableitem"><p class="itemtext">20</p></td>
+                                    <td class="tableitem"><p class="itemtext">$1500.00</p></td>
+                                </tr>
+
+                                <tr class="service">
+                                    <td class="tableitem"><p class="itemtext">Animation Revisions</p></td>
+                                    <td class="tableitem"><p class="itemtext">10</p></td>
+                                    <td class="tableitem"><p class="itemtext">$750.00</p></td>
+                                </tr>
+
+
+                                <tr class="tabletitle">
+                                    <td></td>
+                                    <td class="Rate"><h2>tax</h2></td>
+                                    <td class="payment"><h2>$419.25</h2></td>
+                                </tr>
+
+                                <tr class="tabletitle">
+                                    <td></td>
+                                    <td class="Rate"><h2>Total</h2></td>
+                                    <td class="payment"><h2>$3,644.25</h2></td>
+                                </tr>
+
+                            </table>
+                        </div><!--End Table-->
+
+                       
+
+                    </div><!--End InvoiceBot-->
+      </div><!--End Invoice-->
+
+    `;
+
+    var originalContent = document.body.innerHTML;
+    document.body.innerHTML = printContent;
+
+    // Apply CSS styles to the receipt content
+    var style = document.createElement('style');
+      
+    document.head.appendChild(style);
+
+    // Print the content
+        window.print( );
+
+    // Restore the original content
+    document.body.innerHTML = originalContent;
+}
+
+    function findClosestTableRow(item) {
+        // Find the closest <tr> element by navigating up the DOM hierarchy from the button
+        var button = document.querySelector(`[onclick="printReceipt('${item}')"]`);
+        if (!button) {
+            console.error("Could not find the button associated with the item.");
+            return null;
+        }
+
+        var tr = button.closest('tr');
+        if (!tr) {
+            console.error("Could not find the closest table row.");
+            return null;
+        }
+
+        return tr;
+    }
+
+
+</script>
+<script>
+    let table = new DataTable('#myTable', {
+        responsive: true
+    });
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
