@@ -20,9 +20,9 @@
 	<h5>Name:@Model.patient.FullName</h5>
 	<h5>Referred By:@Model.patient.FullName</h5>
 }
-<div class="container mb-4">
+<div class="container-fluid mb-4 mt-5">
 	
-    <div class="form-wrap">
+		 <div class="form-wrap">
 		
 		<form asp-action="AddTestsAppointments" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -59,6 +59,8 @@
 			</div>
         </form>
     </div>
+		
+		
 </div>
 
 
@@ -148,7 +150,7 @@
 	.form-wrap {
 		background: rgba(255,255,255,1);
 		width: 100%;
-		max-width: 850px;
+		max-width: 100%;
 		padding: 50px;
 		margin: 0 auto;
 		position: relative;
