@@ -37,6 +37,16 @@ namespace DockingAdminPanel.Controllers
                         View(todaypatients) :
                         Problem("Entity set 'BookingWebAppContext.patients'  is null.");
         }
+
+        public async Task<IActionResult> copy()
+        {
+              var todaypatients = await _context.patients.Where(q => q.AddedDate.Date == DateTime.Now.Date && q.IsDeleted==false && q.LabAppointment== "Doctor Appointment").ToListAsync();
+              return todaypatients != null ? 
+                          View(todaypatients) :
+                          Problem("Entity set 'BookingWebAppContext.patients'  is null.");
+            return View(todaypatients);
+        }
+
         // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
