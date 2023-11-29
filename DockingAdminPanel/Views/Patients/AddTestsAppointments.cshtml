@@ -23,7 +23,7 @@
 <div class="container-fluid mb-4 mt-5">
 	
 		 <div class="form-wrap">
-		
+		<h5 id="total">total Amount : <input type="number" value="0" id="tot" readonly /></h5>
 		<form asp-action="AddTestsAppointments" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<input type="hidden" value="@Model?.patient?.Id" name="patientid"  />
@@ -41,7 +41,7 @@
 							{
 								<div class="form-group form-check">
 									<label class="form-check-label">
-										<input onclick="callcheckboxalert(@item.Price)" class="form-check-input" name="test" value="@item.Id" type="checkbox" /> @item.TestName
+										<input onchange="callcheckboxalert(this, @item.Price)" class="form-check-input" name="test" value="@item.Id" type="checkbox" /> @item.TestName
 									</label>
 								</div>
 							}
@@ -52,7 +52,7 @@
 
 
  
-			<h5 id="total">total Amount : <input type="number" value="0" id="tot" readonly /></h5>
+			
 			<div class="form-group">
 				<input type="submit" value="Pay" class="btn btn-primary" />
 				<a asp-action="Index" class="btn btn-warning">Back to List</a>
@@ -106,13 +106,17 @@
 	$(document).ready(function () {
 		$('#myTable').DataTable();
 	});
-	var totalamount=0;
-	function callcheckboxalert(price){
-		 totalamount=totalamount+price;
-	 
-		document.getElementById("tot").value=totalamount;
-		 
-	}
+     var totalamount = 0;
+
+    function callcheckboxalert(checkbox, price) {
+        if (checkbox.checked) {
+            totalamount = totalamount + price;
+        } else {
+            totalamount = totalamount - price;
+        }
+
+        document.getElementById("tot").value = totalamount;
+    }
 </script>
 <style>
 	@@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap');
@@ -256,4 +260,21 @@
 			-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
 			box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
 		}
+
+	#total {
+		position: fixed;
+		top: 0;
+		left: 20;
+		right: 0;
+		background-color: #fff; /* Set a background color if needed */
+		padding: 10px;
+		width:25%;
+		z-index: 1000;
+		margin-top:50px;
+		 
+	}
+
+	.form-wrap {
+		margin-top: 40px; /* Adjust margin to leave space for the fixed total amount */
+	}
 </style>
