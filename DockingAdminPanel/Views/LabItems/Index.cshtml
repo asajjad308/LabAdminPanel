@@ -4,11 +4,39 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
+<div class="row pt-2">
+    <div class="col-md-6">
+   <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Create New</a>
 </p>
+    </div>
+
+    
+        
+    <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4'>
+
+        <form class='navbar-form'>
+          <div class='input-group'>
+            <input class='form-control' type='text' name='search' placeholder='Search' />
+            <span class="input-group-btn" >
+              <button type='submit' class='btn btn-default w-100 h-100'>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </span>
+
+          </div>
+        </form>
+
+    </div>
+
+
+</div>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -42,12 +70,53 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NormalValue)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td class="text-end w-25">
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary"><i class="fa-regular fa-pen-to-square"></i> Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success"><i class="fa-solid fa-circle-info"></i>  Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i>  Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+<style>
+    .btn-secondary:hover{
+        background: transparent !important;
+        color: #6c757d !important;
+    }
+
+    .btn-success:hover{
+        background: transparent !important;
+        color: #28a745 !important;
+    }
+
+    .btn-danger:hover{
+        background: transparent !important;
+        color: #dc3545 !important;
+    }
+
+     .input-group-btn {
+        border:1px solid #ced4da; 
+        border-top-right-radius: 16px; 
+        border-bottom-right-radius: 16px;
+    }
+
+    .btn-default {
+         border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+
+    .btn-default:hover{
+        background: #C9D6FF;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 16px;
+        border-bottom-right-radius: 16px;
+        border: 1px solid #C9D6FF;
+    }    
+
+</style>

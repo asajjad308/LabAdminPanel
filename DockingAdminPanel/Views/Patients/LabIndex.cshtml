@@ -85,11 +85,11 @@
                             </td>
 
                             <td>
-                                <a onclick="printReceipt('@item')" class="btn btn-success" style="background-color:#fcbf49">Pay</a>
-                                <a asp-action="AddTestsAppointments" class="btn btn-outline-primary" asp-route-id="@item.Id">Add Tests</a> |
-                                <a asp-action="Edit" class="btn btn-outline-secondary" asp-route-id="@item.Id">Edit</a> |
-                                <a asp-action="Details" class="btn btn-outline-warning" asp-route-id="@item.Id">Details</a> |
-                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id">Delete</a>
+                                <a onclick="printReceipt('@item')" class="btn btn-success" style="background-color:#fcbf49"><i class="fa-solid fa-money-bill-1"></i> Pay</a>
+                                <a asp-action="AddTestsAppointments" class="btn btn-outline-primary" asp-route-id="@item.Id"><i class="fa-solid fa-circle-plus"></i> Add Tests</a> |
+                                <a asp-action="Edit" class="btn btn-outline-secondary" asp-route-id="@item.Id"><i class="fa-regular fa-pen-to-square"></i> Edit</a> |
+                                <a asp-action="Details" class="btn btn-outline-warning" asp-route-id="@item.Id"><i class="fa-solid fa-circle-info"></i> Details</a> |
+                                <a asp-action="Delete" class="btn btn-outline-danger" asp-route-id="@item.Id"><i class="fa-regular fa-trash-can"></i>  Delete</a>
 
 
                             </td>
@@ -221,7 +221,7 @@
             </center><!--End InvoiceTop-->
 
             <div id="mid">
-              <div class="info text-center">
+              <div class="info text-center text-dark">
                 <p>
                     Address : Rajjar charsadda, kpk 24420</br>
                     Email   : ahmad@gmail.com</br>
@@ -230,42 +230,56 @@
               </div>
             </div><!--End Invoice Mid-->
 
+            <div class="container">
+             
+              <table class="info mb-3"> 
+
+              <tbody>
+                        <tr>
+                            <td>Name: Dawood
+                                Age: 18
+                                Sex: M
+                            </td>
+
+                           
+                        </tr>
+                        <tr>
+                            <td>Name: Dawood
+                                Age: 18
+                                Sex: M
+                            </td>
+                        </tr>
+                    </tbody>
+            </table>
+            </div>
+
             <div id="bot">
                 <div class="container"> 
 
 
-                             <div class="row my-2 mx-1 justify-content-center">
-          <table class="table table-striped table-borderless information-table">
-            <thead style="background-color:#84B0CA ;" class="text-white">
+                             <div class="row mx-1 justify-content-center">
+          <table class="information-table">
+            <thead style="background-color:#84B0CA; font-size: 14px;">
               <tr>
             
-                <th scope="col">Description</th>
-                <th scope="col">Qty</th>
+                <th scope="col">Doctor Name</th>
                 <th scope="col">Unit Price</th>
               
               </tr>
             </thead>
-            <tbody>
-              <tr>
-               
-                <td>Pro Package</td>
-                <td>4</td>
-                <td>$200</td>
-               
-              </tr>
-              <tr>
+            <tbody >
+              
+              <tr style="color: black; font-weight: bold; font-size: 14px;">
              
                 <td>Web hosting</td>
-                <td>1</td>
                 <td>$10</td>
                 
               </tr>
               <tr>
-               
-                <td>Consulting</td>
-                <td>1</td>
-                <td>$300</td>
-            
+             
+                <td>Web hosting</td>
+                <td>$10</td>
+                
               </tr>
             </tbody>
 
@@ -273,13 +287,18 @@
         </div>
  
         <div class="row">
-          <div class="col-xl-3 text-end">
-            <ul class="list-unstyled">
-              <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>$1110</li>
-              <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax(15%)</span>$111</li>
-            </ul>
-            <p class="text-black"><span class="text-black me-3"> Total Amount</span><span
-                style="font-size: 25px;">$1221</span></p>
+          <div class="col-xl-3 " style="margin-top: 20px; display: flex; justify-content: end">
+           <table  style="margin-top: 20px; display: flex; justify-content: end">
+                <tbody>
+                                <tr>
+                                    <td>SubTotal: <br>
+                                        Tax(15%): <br>
+                                        Total Amount:
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            </table>
           </div>
         </div>
 
