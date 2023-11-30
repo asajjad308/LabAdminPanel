@@ -56,10 +56,11 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,Specialization,LicenseNumber,DateOfBirth,Address,City,State,ZipCode,fee")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Email,PhoneNumber,Specialization,LicenseNumber,DateOfBirth,Address,City,State,ZipCode,DoctorFee,ClinicCharges")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
+                doctor.TotalFee = doctor.DoctorFee+doctor.ClinicCharges;
                 _context.Add(doctor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

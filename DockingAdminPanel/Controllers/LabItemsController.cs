@@ -60,7 +60,7 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TestName,Price,Units,NormalValue,CategoryId")] LabItems labItems)
+        public async Task<IActionResult> Create([Bind("Id,TestName,Price,Units,NormalValue,CategoryId,Cost")] LabItems labItems)
         {
             if (ModelState.IsValid)
             {
@@ -80,6 +80,9 @@ namespace DockingAdminPanel.Controllers
             }
 
             var labItems = await _context.labItems.FindAsync(id);
+            var categories = await _context.labCategories.ToListAsync();
+        
+            labItems.labCategories = categories;
             if (labItems == null)
             {
                 return NotFound();
@@ -92,7 +95,7 @@ namespace DockingAdminPanel.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TestName,Price,Units,NormalValue")] LabItems labItems)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TestName,Price,Units,NormalValue,CategoryId,Cost")] LabItems labItems)
         {
             if (id != labItems.Id)
             {

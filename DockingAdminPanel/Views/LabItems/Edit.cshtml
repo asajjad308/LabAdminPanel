@@ -24,6 +24,11 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Units" class="control-label"></label>
                 <input asp-for="Units" class="form-control" />
                 <span asp-validation-for="Units" class="text-danger"></span>
@@ -32,6 +37,20 @@
                 <label asp-for="NormalValue" class="control-label"></label>
                 <input asp-for="NormalValue" class="form-control" />
                 <span asp-validation-for="NormalValue" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="CategoryId" class="control-label">Category</label>
+                <select asp-for="CategoryId" required class="form-control">
+                    <option value="">Select a Category</option>
+                    @if (Model.labCategories.Count() > 0)
+                    {
+                        @foreach (var item in Model.labCategories)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

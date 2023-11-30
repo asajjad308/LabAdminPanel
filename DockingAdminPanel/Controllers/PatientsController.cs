@@ -26,13 +26,26 @@ namespace DockingAdminPanel.Controllers
         public async Task<IActionResult> Index()
         {
             var todaypatients = await _context.patients.Where(q => q.AddedDate.Date == DateTime.Now.Date && q.IsDeleted==false && q.LabAppointment== "Doctor Appointment").ToListAsync();
-              return todaypatients != null ? 
+            var doctors = await _context.doctors.ToListAsync();
+            foreach (var item in todaypatients)
+            {
+                item.Doctors=new List<Doctor>();
+                item.Doctors.AddRange(doctors);
+            }
+            return todaypatients != null ? 
                           View(todaypatients) :
                           Problem("Entity set 'BookingWebAppContext.patients'  is null.");
         }
         public async Task<IActionResult> LabIndex()
         {
             var todaypatients = await _context.patients.Where(q => q.AddedDate.Date == DateTime.Now.Date && q.IsDeleted == false && q.LabAppointment== "Lab Appointment").ToListAsync();
+            var todaytest = await _context.patientsTests.Where(q => q.addedDatetime.Date == DateTime.Now.Date).ToListAsync();
+            foreach (var patients in todaypatients)
+            {
+                var patienttests = todaytest.Where(p => p.PatientId == patients.Id).ToList();
+                patients.patientTest = new List<PatientsTests>();
+                patients.patientTest.AddRange(patienttests);
+            }
             return todaypatients != null ?
                         View(todaypatients) :
                         Problem("Entity set 'BookingWebAppContext.patients'  is null.");

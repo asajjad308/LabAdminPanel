@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var patid = 0;
 }
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
@@ -9,6 +10,9 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 
 <div class="card mt-5">
+
+ 
+
 
     <div class="card-header">
 
@@ -52,7 +56,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr data-fullname="@item.FullName" data-fee="@item.Fee" data-token="@item.TokenNumber">
+                        <tr data-fullname="@item.FullName" data-patientid="@item.Id" data-age="@item.Age" data-sex="@item.Sex" data-fee="@item.Fee" data-token="@item.TokenNumber" data-test="@item.patientTest">
                             <td style=@(item.PaymentStatus==true?"background-color:green":"background-color:red")>
                                 @(item.PaymentStatus == true ? "Paid" : "UnPaid")
                             </td>
@@ -85,7 +89,7 @@
                             </td>
 
                             <td>
-                                <a onclick="printReceipt('@item')" class="btn btn-success" style="background-color:#fcbf49">Pay</a>
+                                <a onclick="printReceipt(this,'@item.Id' )" class="btn btn-success" style="background-color:#fcbf49">Pay</a>
                                 <a asp-action="AddTestsAppointments" class="btn btn-outline-primary" asp-route-id="@item.Id">Add Tests</a> |
                                 <a asp-action="Edit" class="btn btn-outline-secondary" asp-route-id="@item.Id">Edit</a> |
                                 <a asp-action="Details" class="btn btn-outline-warning" asp-route-id="@item.Id">Details</a> |
@@ -108,204 +112,205 @@
 <script>
 
 
-    function printReceipt(item) {
-        var tr = findClosestTableRow(item); // Find the parent tr element
-        if (!tr) {
-            console.error("Could not find the closest table row.");
-            return;
-        }
+    function printReceipt(item, patientid,test) {
+        var tr = item.closest('tr');
         //var tr = element.closest('tr'); // Find the parent tr element
         var fullname = tr.getAttribute('data-fullname');
         var fee = tr.getAttribute('data-fee');
         var token = tr.getAttribute('data-token');
-
-
+        var age = tr.getAttribute('data-age');
+        var sex = tr.getAttribute('data-sex');
+        var tests = tr.getAttribute('data-test');
+ 
+        //var patientid = tr.getAttribute('data-patientid');
+        
 
         var printContent = `
+          <style type="text/css">
+            #invoice-POS {
+                font-family: Helvetica, Arial, sans-serif;
+                padding: 0;
+                margin: 0 auto;
+                width: 88mm;
+                background: #FFF;
+            }
 
-                <style type="text/css">
-            #invoice-POS{
-               font-family: Arial, sans-serif;
-          padding:0mm;
-          margin: 0 auto;
-          width: 88mm;
-          background: #FFF;
+            h1, h2, h3, p {
+                margin: 0;
+                padding: 0;
+            }
 
+            #top, #mid, #bot {
+                border-bottom: 1px solid #EEE;
+            }
 
-        ::selection {background: #f31544; color: #FFF;}
-        ::moz-selection {background: #f31544; color: #FFF;}
-        h1{
-          font-size: 1.5em;
-          color: #222;
-        }
-        h2{font-size: .9em;}
-        h3{
-          font-size: 1.2em;
-          font-weight: 300;
-          line-height: 2em;
-        }
-        p{
-          font-size: .7em;
-          color: #666;
-          line-height: 1.2em;
-        }
+            #top {
+                min-height: 20px;
+            }
 
-        #top, #mid,#bot{ /* Targets all id with 'col-' */
-          border-bottom: 1px solid #EEE;
-        }
+            #mid {
+                min-height: 80px;
+            }
 
-        #top{min-height: 100px;}
-        #mid{min-height: 80px;}
-        #bot{ min-height: 50px;}
+            #bot {
+                min-height: 50px;
+            }
 
-        #top .logo{
-          //float: left;
-            height: 60px;
-            width: 60px;
-            background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
-            background-size: 60px 60px;
-        }
-        .clientlogo{
-          float: left;
-            height: 60px;
-            width: 60px;
-            background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
-            background-size: 60px 60px;
-          border-radius: 50px;
-        }
-        .info{
-          display: block;
-          //float:left;
-          margin-left: 0;
-        }
-        .title{
-          float: right;
-        }
-        .title p{text-align: right;}
-        table{
-          width: 100%;
-          border-collapse: collapse;
-        }
-        td{
-          //padding: 5px 0 5px 15px;
-          //border: 1px solid #EEE
-        }
-        .tabletitle{
-          //padding: 5px;
-          font-size: .5em;
-          background: #EEE;
-        }
-        .service{border-bottom: 1px solid #EEE;}
-        .item{width: 24mm;}
-        .itemtext{font-size: .5em;}
+            .info {
+                display: block;
+                margin-left: 0;
+            }
 
-        #legalcopy{
-          margin-top: 5mm;
-        }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
 
+            td {
+                padding: 5px;
+                border: 2px solid #000;
+                background: #FFF;
+                color: #000; /* Change text color to black */
+            }
 
-       
+            .tabletitle {
+                font-size: .5em;
+                background: #EEE;
+            }
 
-        }
+            .service {
+                border-bottom: 1px solid #EEE;
+            }
+
+            .item {
+                width: 24mm;
+            }
+
+            .itemtext {
+                font-size: .5em;
+            }
+
+            #legalcopy {
+                margin-top: 5mm;
+            }
+
+            .container {
+                margin: 0;
+            }
+
+            .row {
+                margin: 0;
+            }
+
+            .col-xl-3 {
+                margin-top: 10px;
+                display: flex;
+                justify-content: end;
+            }
+
+            /* Change text color for thead */
+            .information-table thead {
+                font-size: 18px;
+            }
         </style>
 
         <!-- Header -->
-
-          <div id="invoice-POS">
-
+        <div id="invoice-POS">
             <center id="top">
-              <div class="logo"></div>
-              <div class="info">
-                <h2>A+ Clinics</h2>
-              </div><!--End Info-->
-            </center><!--End InvoiceTop-->
+                <div class="logo"></div>
+                <div class="info">
+                    <h2>A+ Clinics</h2>
+                </div>
+            </center>
+            <!-- End InvoiceTop -->
 
             <div id="mid">
-              <div class="info text-center text-dark">
-                <p>
-                    Address : Rajjar charsadda, kpk 24420</br>
-                    Email   : ahmad@gmail.com</br>
-                    Phone   : 555-555-5555</br>
-                </p>
-              </div>
-            </div><!--End Invoice Mid-->
-
-            <div class="container">
-             
-              <table class="info mb-3"> 
-
-              <tbody>
+                <div class="info text-center text-dark">
+                    <p>
+                        Address : Rajjar charsadda, kpk 24420<br>
+                        Email   : ahmad@gmail.com<br>
+                        Phone   : 555-555-5555<br>
+                    </p>
+                </div>
+                <table class="information-table">
+                    <thead>
                         <tr>
-                            <td>Name: Dawood
-                                Age: 18
-                                Sex: M
-                            </td>
-
-                           
+                            <th scope="col">Patient</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">sex</th>
+                            <th scope="col">Token</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
-                            <td>Name: Dawood
-                                Age: 18
-                                Sex: M
+                            <td>
+                                ${fullname.toUpperCase()}
+
+
                             </td>
+                            <td>${age}28
+
+                            <td>
+                                ${sex}
+                            </td>
+                            <td>     ${token}100</td>
                         </tr>
                     </tbody>
-            </table>
+                </table>
             </div>
+            <!-- End Invoice Mid -->
 
             <div id="bot">
-                <div class="container"> 
-
-
-                             <div class="row mx-1 justify-content-center">
-          <table class="information-table">
-            <thead style="background-color:#84B0CA; font-size: 14px;">
-              <tr>
-            
-                <th scope="col">Doctor Name</th>
-                <th scope="col">Unit Price</th>
-              
-              </tr>
-            </thead>
-            <tbody >
-              
-              <tr style="color: black; font-weight: bold; font-size: 14px;">
-             
-                <td>Web hosting</td>
-                <td>$10</td>
-                
-              </tr>
-              <tr>
-             
-                <td>Web hosting</td>
-                <td>$10</td>
-                
-              </tr>
-            </tbody>
-
-          </table>
-        </div>
- 
-        <div class="row">
-          <div class="col-xl-3 " style="margin-top: 20px; display: flex; justify-content: end">
-           <table  style="margin-top: 20px; display: flex; justify-content: end">
-                <tbody>
+                <div class="">
+                    <div class="">
+                        <table class="information-table">
+                            <thead>
                                 <tr>
-                                    <td>SubTotal: <br>
-                                        Tax(15%): <br>
-                                        Total Amount:
-                                    </td>
-
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Amount</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+    @if (Model.Count() > 0)
+    {
+        @foreach (var patient in Model)
+        {
+            @if (patient.Id ==patid )
+            {
+                foreach (var test in patient.patientTest)
+                {
+                                                                            <tr>
+                                                                                <td>@test.TestName</td>
+                                                                                <td>@test.Price</td>
+                                                                            </tr>
+                }
+            }
+        
+        }
+    }
+
                             </tbody>
+                        </table>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            SubTotal: <br>
+                                            Tax(15%): <br>
+                                            Total Amount:
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
-          </div>
-        </div>
-
+                        </div>
+                    </div>
                 </div>
-
-                        </div><!--End InvoiceBot-->
-          </div><!--End Invoice-->
+            </div>
+            <!-- End InvoiceBot -->
+        </div>
 
         `;
 

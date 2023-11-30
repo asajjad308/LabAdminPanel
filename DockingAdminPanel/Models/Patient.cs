@@ -28,7 +28,11 @@ namespace DockingAdminPanel.Models
         public string? Illness { get; set; }
         public int DoctorId { get; set; }
 
+         
         [NotMapped]
-        public List<Doctor> Doctors { get; set; }
+        public List<Doctor>? Doctors { get; set; }
+
+        [NotMapped]
+        public List<PatientsTests>? patientTest { get; set; }
     }
 }
