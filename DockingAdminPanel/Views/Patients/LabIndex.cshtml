@@ -139,6 +139,7 @@
         tests.forEach(test => {
             testsHtml += `<tr><td>${test.TestName}</td><td>${test.Price}</td></tr>`;
         });
+        var totalAmount = tests.reduce((sum, test) => sum + parseFloat(test.price), 0);
         var printContent = `
                         <style type="text/css">
                 #invoice-POS {
@@ -281,7 +282,7 @@
                             <table class="information-table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Description</th>
+                                        <th scope="col">Description (Tests)</th>
                                         <th scope="col">Amount</th>
                                     </tr>
                                 </thead>
@@ -304,7 +305,7 @@
                                                 <td>
                                                     SubTotal: <br>
                                                     Tax(15%): <br>
-                                                    Total Amount:${fee}
+                                                        Total Amount:${totalAmount}
                                                 </td>
                                             </tr>
                                         </tbody>
