@@ -905,12 +905,12 @@ namespace DockingAdminPanel.Controllers
 			patient.PaymentStatus = true;
 
             var tokens = _context.patientTokens.FirstOrDefault();
+            var checkdoctor =  _context.patients.Where(r=>r.DoctorId==patient.DoctorId && r.AddedDate.Date==DateTime.Now.Date).OrderBy(r => r.TokenNumber).LastOrDefault(); 
             int counter = 0;
-            if (tokens != null)
+            if (checkdoctor != null )
             {
-                counter = tokens.Counter;
-                tokens.Counter = counter + 1;
-                patient.TokenNumber = counter;
+              
+                patient.TokenNumber = checkdoctor.TokenNumber + 1;
                 patient.AddedDate = DateTime.Now;
                 patient.LabAppointment = "Doctor Appointment";
                 _context.Update(tokens);
