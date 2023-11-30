@@ -24,6 +24,7 @@
             <table id="myTable" class="display">
                 <thead>
                     <tr>
+                        <th style ="display: none"></th>
                         <th>Mrno#</th>
                         <th>Status</th>
                         <th>
@@ -56,9 +57,11 @@
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
-                    {
+                    { 
+                    
                         <tr data-fullname="@item.FullName" data-patientid="@item.Id" data-mrno="@item.MedicalRecordNumber" data-age="@item.Age" data-sex="@item.Sex" data-fee="@item.Fee" data-token="@item.TokenNumber" data-test="@item.patientTest">
-                           <td>@item.MedicalRecordNumber</td>
+                            <td class="test-data" style="display: none">@Json.Serialize(item.patientTest)</td>
+                            <td>@item.MedicalRecordNumber</td>
                             <td style=@(item.PaymentStatus==true?"background-color:green":"background-color:red")>
                                 @(item.PaymentStatus == true ? "Paid" : "UnPaid")
                             </td>
@@ -127,8 +130,15 @@
         var sex = tr.getAttribute('data-sex');
         var doctor = tr.getAttribute('data-doctor');
         var mrno = tr.getAttribute('data-mrno');
-        console.log(fullname)
-
+        
+        var testsJson = tr.querySelector('.test-data').textContent;
+        var tests = JSON.parse(testsJson);
+        console.log(tests)
+        // Generate HTML for tests
+        var testsHtml = '';
+        tests.forEach(test => {
+            testsHtml += `<tr><td>${test.TestName}</td><td>${test.Price}</td></tr>`;
+        });
         var printContent = `
                         <style type="text/css">
                 #invoice-POS {
@@ -276,10 +286,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                            <td>${doctor}</td>
-                                        <td>${fee}</td>
-                                    </tr>
+                                       ${tests.map(test => `
+                        <tr>
+                                <td>${test.testName}</td>
+                                <td>${test.price}</td>
+                        </tr>
+                    `).join('')}
+                                     
                                 </tbody>
                             </table>
                         </div>
