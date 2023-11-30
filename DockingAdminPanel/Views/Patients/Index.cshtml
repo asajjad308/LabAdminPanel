@@ -19,7 +19,8 @@
         <div class="table-responsive">
             <table id="myTable" class="display">
     <thead>
-        <tr><th>Doctor</th>
+        <tr><th>MRNO#</th>
+            <th>Doctor</th>
             <th>Status</th>
                         <th>
                             Token Number
@@ -85,7 +86,8 @@
                                 doctorFee = associatedDoctor.TotalFee;
                             }
 
-                            <tr data-fullname="@item.FullName" data-age="@item.Age" data-sex="@item.Sex" data-fee="@doctorFee" data-doctor="@doctorName"data-token="@item.TokenNumber">
+                            <tr data-fullname="@item.FullName" data-mrno="@item.MedicalRecordNumber" data-age="@item.Age" data-sex="@item.Sex" data-fee="@doctorFee" data-doctor="@doctorName"data-token="@item.TokenNumber">
+                            <td>@item.MedicalRecordNumber</td>
                                 <td>@doctorName</td>
                             <td style=@(item.PaymentStatus==true?"background-color:green":"background-color:red")>
                 @(item.PaymentStatus==true?"Paid":"UnPaid")
@@ -119,7 +121,16 @@
             </td>
             
             <td>
-                                <a onclick="printReceipt(this)" class="btn btn-success" style="background-color:#fcbf49">Pay</a>
+                                @if (item.PaymentStatus==false)
+                                {
+                                    <a asp-action="EditPaid" class="btn btn-outline-secondary" asp-route-id="@item.Id">MarkASPaid</a>
+                                }
+
+                                else
+                                {
+                                    <a onclick="printReceipt(this)" class="btn btn-success" style="background-color:#fcbf49">Pay</a>
+                                }
+                           
                 <a asp-action="AddTestsAppointments" class="btn btn-outline-primary" asp-route-id="@item.Id">Add Tests</a> |
                                 <a asp-action="Edit" class="btn btn-outline-secondary" asp-route-id="@item.Id">Edit</a> |
                                 <a asp-action="Details" class="btn btn-outline-warning" asp-route-id="@item.Id">Details</a> |
@@ -260,6 +271,7 @@
         var age = tr.getAttribute('data-age');
         var sex = tr.getAttribute('data-sex');
         var doctor = tr.getAttribute('data-doctor');
+        var mrno = tr.getAttribute('data-mrno');
         console.log(fullname)
 
         var printContent = `
@@ -374,7 +386,7 @@
                 <table class="information-table">
                     <thead>
                         <tr>
-                            <th scope="col">Patient</th>
+                            <th scope="col">Mrno#${mrno}</th>
                                  <th scope="col">Age</th>
                                       <th scope="col">sex</th>
                                            <th scope="col">Token</th>

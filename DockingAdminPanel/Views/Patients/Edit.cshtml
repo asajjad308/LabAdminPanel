@@ -87,6 +87,80 @@
 				<a asp-action="Index">Back to List</a>
             </div>
         </form>
+		<form asp-action="Edit" method="post" >
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="row">
+				<div class="form-group col-md-4">
+					<label asp-for="FirstName" class="control-label">Name</label>
+					<input asp-for="FirstName" class="form-control" />
+					<span asp-validation-for="FirstName" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-4">
+					<label asp-for="Age" class="control-label">Age</label>
+					<input asp-for="Age" class="form-control" />
+					<span asp-validation-for="Age" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-4 mt-5">
+
+					<div class="form-check form-check-inline">
+						<input type="radio" id="male" name="Sex" checked value="Male" @(Model.Sex == "Male" ? "checked" : "")>
+						<label for="male" class="form-check-label">Male</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input type="radio" id="female" name="Sex" value="Female" @(Model.Sex == "Female" ? "checked" : "")>
+						<label for="female" class="form-check-label">Female</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label asp-for="PhoneNumber" class="control-label">Phone Number</label>
+					<input asp-for="PhoneNumber" class="form-control" />
+					<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-6">
+					<label asp-for="Address" class="control-label">Address</label>
+					<input asp-for="Address" class="form-control" />
+					<span asp-validation-for="Address" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label asp-for="Illness" class="control-label">Illness</label>
+					<input asp-for="Illness" class="form-control" />
+					<span asp-validation-for="Illness" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-6">
+					<label asp-for="DoctorId" class="control-label">Doctor</label>
+					<select asp-for="DoctorId" class="form-control">
+						<option value="">Select a Doctor</option>
+						@if (Model.Doctors.Count() > 0)
+						{
+							@foreach (var item in Model.Doctors)
+							{
+								<option value="@item.Id">@item.FullName</option>
+							}
+						}
+					</select>
+					<span asp-validation-for="DoctorId" class="text-danger"></span>
+				</div>
+			</div>
+			@*   <div class="form-group">
+			<label class="control-label"></label>
+			<div class="form-check">
+			<label class="form-check-label">
+			<input class="form-check-input" asp-for="External" /> External
+			</label>
+			</div>
+			</div>*@
+			<div class="form-group">
+				<button id="PaidAppointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitClick()">Paid Appointment</button>
+				<button id="Appointment" type="button" class="btn btn-primary btn-block rounded-pill font-size-16" onclick="onsubmitUnpaidClick()">Unpaid Appointment</button>
+
+				<a asp-action="Index" class="btn btn-primary btn-block rounded-pill font-size-16">Back to List</a>
+			</div>
+		</form>
     </div>
 </div>
 

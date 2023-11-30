@@ -112,207 +112,195 @@
 <script>
 
 
-    function printReceipt(item, patientid,test) {
+    function printReceipt(item) {
         var tr = item.closest('tr');
+        var doctorName = tr.getAttribute('data-doctor');
+        var doctorFee = tr.getAttribute('data-fee');
+        console.log(doctorName)
         //var tr = element.closest('tr'); // Find the parent tr element
         var fullname = tr.getAttribute('data-fullname');
         var fee = tr.getAttribute('data-fee');
         var token = tr.getAttribute('data-token');
         var age = tr.getAttribute('data-age');
         var sex = tr.getAttribute('data-sex');
-        var tests = tr.getAttribute('data-test');
- 
-        //var patientid = tr.getAttribute('data-patientid');
-        
+        var doctor = tr.getAttribute('data-doctor');
+        console.log(fullname)
 
         var printContent = `
-          <style type="text/css">
-            #invoice-POS {
-                font-family: Helvetica, Arial, sans-serif;
-                padding: 0;
-                margin: 0 auto;
-                width: 88mm;
-                background: #FFF;
-            }
-
-            h1, h2, h3, p {
-                margin: 0;
-                padding: 0;
-            }
-
-            #top, #mid, #bot {
-                border-bottom: 1px solid #EEE;
-            }
-
-            #top {
-                min-height: 20px;
-            }
-
-            #mid {
-                min-height: 80px;
-            }
-
-            #bot {
-                min-height: 50px;
-            }
-
-            .info {
-                display: block;
-                margin-left: 0;
-            }
-
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            td {
-                padding: 5px;
-                border: 2px solid #000;
-                background: #FFF;
-                color: #000; /* Change text color to black */
-            }
-
-            .tabletitle {
-                font-size: .5em;
-                background: #EEE;
-            }
-
-            .service {
-                border-bottom: 1px solid #EEE;
-            }
-
-            .item {
-                width: 24mm;
-            }
-
-            .itemtext {
-                font-size: .5em;
-            }
-
-            #legalcopy {
-                margin-top: 5mm;
-            }
-
-            .container {
-                margin: 0;
-            }
-
-            .row {
-                margin: 0;
-            }
-
-            .col-xl-3 {
-                margin-top: 10px;
-                display: flex;
-                justify-content: end;
-            }
-
-            /* Change text color for thead */
-            .information-table thead {
-                font-size: 18px;
-            }
-        </style>
-
-        <!-- Header -->
-        <div id="invoice-POS">
-            <center id="top">
-                <div class="logo"></div>
-                <div class="info">
-                    <h2>A+ Clinics</h2>
-                </div>
-            </center>
-            <!-- End InvoiceTop -->
-
-            <div id="mid">
-                <div class="info text-center text-dark">
-                    <p>
-                        Address : Rajjar charsadda, kpk 24420<br>
-                        Email   : ahmad@gmail.com<br>
-                        Phone   : 555-555-5555<br>
-                    </p>
-                </div>
-                <table class="information-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Patient</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">sex</th>
-                            <th scope="col">Token</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                ${fullname.toUpperCase()}
-
-
-                            </td>
-                            <td>${age}28
-
-                            <td>
-                                ${sex}
-                            </td>
-                            <td>     ${token}100</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- End Invoice Mid -->
-
-            <div id="bot">
-                <div class="">
-                    <div class="">
-                        <table class="information-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-    @if (Model.Count() > 0)
-    {
-        @foreach (var patient in Model)
-        {
-            @if (patient.Id ==patid )
-            {
-                foreach (var test in patient.patientTest)
-                {
-                                                                            <tr>
-                                                                                <td>@test.TestName</td>
-                                                                                <td>@test.Price</td>
-                                                                            </tr>
+                        <style type="text/css">
+                #invoice-POS {
+                    font-family: Helvetica, Arial, sans-serif;
+                    padding: 0;
+                    margin: 0 auto;
+                    width: 88mm;
+                    background: #FFF;
                 }
-            }
-        
-        }
-    }
 
-                            </tbody>
-                        </table>
+                h1, h2, h3, p {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                #top, #mid, #bot {
+                    border-bottom: 1px solid #EEE;
+                }
+
+                #top {
+                    min-height: 20px;
+                }
+
+                #mid {
+                    min-height: 80px;
+                }
+
+                #bot {
+                    min-height: 50px;
+                }
+
+                .info {
+                    display: block;
+                    margin-left: 0;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                td {
+                    padding: 5px;
+                    border: 2px solid #000;
+                    background: #FFF;
+                    color: #000; /* Change text color to black */
+                }
+
+                .tabletitle {
+                    font-size: .5em;
+                    background: #EEE;
+                }
+
+                .service {
+                    border-bottom: 1px solid #EEE;
+                }
+
+                .item {
+                    width: 24mm;
+                }
+
+                .itemtext {
+                    font-size: .5em;
+                }
+
+                #legalcopy {
+                    margin-top: 5mm;
+                }
+
+                .container {
+                    margin: 0;
+                }
+
+                .row {
+                    margin: 0;
+                }
+
+                .col-xl-3 {
+                    margin-top: 10px;
+                    display: flex;
+                    justify-content: end;
+                }
+
+                /* Change text color for thead */
+                .information-table thead {
+
+                    font-size: 18px;
+                }
+            </style>
+
+            <!-- Header -->
+            <div id="invoice-POS">
+                <center id="top">
+                    <div class="logo"></div>
+                    <div class="info">
+                        <h1>A+ Clinics</h1>
                     </div>
+                </center>
+                <!-- End InvoiceTop -->
+
+                <div id="mid">
+                    <div class="info text-center text-dark">
+                        <p>
+                               Royal Tower,Near Allied CNG,<br>Tangi Road,Rajjar Charsadda<br>
+
+                            Phone   : 0314-1504216<br>
+                                <strong class="float-right">@DateTime.Now</strong>
+                        </p>
+                    </div>
+                    <table class="information-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Patient</th>
+                                     <th scope="col">Age</th>
+                                          <th scope="col">sex</th>
+                                               <th scope="col">Token</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                          ${fullname.toUpperCase()}
+
+
+                                </td>
+                                    <td>${age}
+
+                                                        <td>
+                                                    ${sex}</td>
+                                    <td>     ${token}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End Invoice Mid -->
+
+                <div id="bot">
                     <div class="">
                         <div class="">
-                            <table>
+                            <table class="information-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Doctor Name</th>
+                                        <th scope="col">Fee</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     <tr>
-                                        <td>
-                                            SubTotal: <br>
-                                            Tax(15%): <br>
-                                            Total Amount:
-                                        </td>
+                                            <td>${doctor}</td>
+                                        <td>${fee}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <div class="">
+                            <div class="">
+                                        <table>
+                                        <tbody>
+                                            <tr style="display: flex; justify-content: end;">
+                                                <td>
+                                                    SubTotal: <br>
+                                                    Tax(15%): <br>
+                                                    Total Amount:${fee}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- End InvoiceBot -->
             </div>
-            <!-- End InvoiceBot -->
-        </div>
 
-        `;
+                `;
 
         var originalContent = document.body.innerHTML;
         document.body.innerHTML = printContent;
@@ -328,6 +316,7 @@
         // Restore the original content
         document.body.innerHTML = originalContent;
     }
+
 
     function findClosestTableRow(item) {
         // Find the closest <tr> element by navigating up the DOM hierarchy from the button

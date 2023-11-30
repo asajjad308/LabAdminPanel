@@ -38,7 +38,7 @@ namespace DockingAdminPanel.Controllers
         }
         public async Task<IActionResult> LabIndex()
         {
-            var todaypatients = await _context.patients.Where(q => q.AddedDate.Date == DateTime.Now.Date && q.IsDeleted == false && q.LabAppointment== "Lab Appointment").ToListAsync();
+            var todaypatients = await _context.patients.Where(q => q.LabAppointment== "Lab Appointment" && q.IsDeleted==false && q.AddedDate.Date==DateTime.Now.Date).ToListAsync();
             var todaytest = await _context.patientsTests.Where(q => q.addedDatetime.Date == DateTime.Now.Date).ToListAsync();
             foreach (var patients in todaypatients)
             {
@@ -905,7 +905,18 @@ namespace DockingAdminPanel.Controllers
 			patient.PaymentStatus = true;
 
             var tokens = _context.patientTokens.FirstOrDefault();
-            var checkdoctor =  _context.patients.Where(r=>r.DoctorId==patient.DoctorId && r.AddedDate.Date==DateTime.Now.Date).OrderBy(r => r.TokenNumber).LastOrDefault(); 
+            var checkdoctor =  _context.patients.Where(r=>r.DoctorId==patient.DoctorId && r.IsDeleted == false && r.AddedDate.Date==DateTime.Now.Date).OrderBy(r => r.TokenNumber).LastOrDefault();
+            string mrno = GenerateUniqueMRNO(patient.Id);
+
+            // Step 2: Check if the generated MRNO already exists in the database
+            while (_context.patients.Any(p => p.MedicalRecordNumber == mrno))
+            {
+                // Step 3: If it exists, generate a new one
+                mrno = GenerateUniqueMRNO(patient.Id);
+            }
+
+            // Step 4: Assign the unique MRNO to the patient
+            patient.MedicalRecordNumber = mrno;
             int counter = 0;
             if (checkdoctor != null )
             {
@@ -913,8 +924,7 @@ namespace DockingAdminPanel.Controllers
                 patient.TokenNumber = checkdoctor.TokenNumber + 1;
                 patient.AddedDate = DateTime.Now;
                 patient.LabAppointment = "Doctor Appointment";
-                _context.Update(tokens);
-                _context.SaveChanges();
+           
             }
             else
             {
@@ -935,7 +945,17 @@ namespace DockingAdminPanel.Controllers
 			//}
 			//return View(patient);
 		}
-		[HttpPost]
+
+        private string GenerateUniqueMRNO(int patientId)
+        {
+            // You can customize this method to generate MRNO according to your requirements
+            // For example, you can use a combination of date, patient ID, random numbers, etc.
+            Random random = new Random();
+            int randomNumber = random.Next(100, 99999); // Adjust the range based on your preferences
+
+            return $"{randomNumber}";
+        }
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreateLabUnPaid(Patient patient)
 		{
@@ -948,12 +968,15 @@ namespace DockingAdminPanel.Controllers
 				counter = tokens.Counter;
 				tokens.Counter = counter + 1;
 				patient.TokenNumber = counter;
-                
+                patient.AddedDate = DateTime.Now;
+                patient.PaymentStatus = true;
+                patient.LabAppointment = "Lab Appointment";
                 _context.Update(tokens);
 				_context.SaveChanges();
             }
             else
             {
+                patient.PaymentStatus = true;
                 patient.AddedDate = DateTime.Now;
                 patient.LabAppointment = "Lab Appointment";
                 patient.TokenNumber = counter+1;
@@ -988,10 +1011,35 @@ namespace DockingAdminPanel.Controllers
 				counter = tokens.Counter;
 
             }
-		
-			patient.TokenNumber=counter;
-            patient.AddedDate = DateTime.Now;
-            patient.LabAppointment = "Doctor Appointment";
+         
+            var checkdoctor = _context.patients.Where(r => r.DoctorId == patient.DoctorId && r.IsDeleted==false && r.AddedDate.Date == DateTime.Now.Date).OrderBy(r => r.TokenNumber).LastOrDefault();
+            string mrno = GenerateUniqueMRNO(patient.Id);
+
+            // Step 2: Check if the generated MRNO already exists in the database
+            while (_context.patients.Any(p => p.MedicalRecordNumber == mrno))
+            {
+                // Step 3: If it exists, generate a new one
+                mrno = GenerateUniqueMRNO(patient.Id);
+            }
+
+            // Step 4: Assign the unique MRNO to the patient
+            patient.MedicalRecordNumber = mrno;
+            if (checkdoctor != null)
+            {
+
+                patient.TokenNumber = checkdoctor.TokenNumber + 1;
+                patient.AddedDate = DateTime.Now;
+                patient.LabAppointment = "Doctor Appointment";
+
+            }
+            else
+            {
+                patient.TokenNumber = counter + 1;
+                patient.AddedDate = DateTime.Now;
+                patient.LabAppointment = "Doctor Appointment";
+            }
+
+          
             _context.Add(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -1017,6 +1065,7 @@ namespace DockingAdminPanel.Controllers
 			{
 				return NotFound();
 			}
+			patient.Doctors = await _context.doctors.ToListAsync();
 			return View(patient);
 		}
 		public async Task<IActionResult> AddSampleCollection(int? id)
@@ -1119,6 +1168,26 @@ namespace DockingAdminPanel.Controllers
 			//}
 			//return View(patient);
 		}
+
+        public async Task<IActionResult> EditPaid(int? id)
+        {
+            if (id == null || _context.patients == null)
+            {
+                return NotFound();
+            }
+
+            var patient = await _context.patients.FindAsync(id);
+           
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            patient.PaymentStatus = true;
+            patient.Doctors = await _context.doctors.ToListAsync();
+            _context.Update(patient);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
         // GET: Patients/Delete/5
         public async Task<IActionResult> Delete(int? id)
