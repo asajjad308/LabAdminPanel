@@ -963,7 +963,18 @@ namespace DockingAdminPanel.Controllers
 
 			var tokens = _context.patientTokens.FirstOrDefault();
 			int counter = 0;
-			if (tokens != null)
+            string mrno = GenerateUniqueMRNO(patient.Id);
+
+            // Step 2: Check if the generated MRNO already exists in the database
+            while (_context.patients.Any(p => p.MedicalRecordNumber == mrno))
+            {
+                // Step 3: If it exists, generate a new one
+                mrno = GenerateUniqueMRNO(patient.Id);
+            }
+
+            // Step 4: Assign the unique MRNO to the patient
+            patient.MedicalRecordNumber = mrno;
+            if (tokens != null)
 			{
 				counter = tokens.Counter;
 				tokens.Counter = counter + 1;
