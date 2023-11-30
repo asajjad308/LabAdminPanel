@@ -57,7 +57,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr data-fullname="@item.FullName" data-patientid="@item.Id" data-age="@item.Age" data-sex="@item.Sex" data-fee="@item.Fee" data-token="@item.TokenNumber" data-test="@item.patientTest">
+                        <tr data-fullname="@item.FullName" data-patientid="@item.Id" data-mrno="@item.MedicalRecordNumber" data-age="@item.Age" data-sex="@item.Sex" data-fee="@item.Fee" data-token="@item.TokenNumber" data-test="@item.patientTest">
                            <td>@item.MedicalRecordNumber</td>
                             <td style=@(item.PaymentStatus==true?"background-color:green":"background-color:red")>
                                 @(item.PaymentStatus == true ? "Paid" : "UnPaid")
@@ -126,6 +126,7 @@
         var age = tr.getAttribute('data-age');
         var sex = tr.getAttribute('data-sex');
         var doctor = tr.getAttribute('data-doctor');
+        var mrno = tr.getAttribute('data-mrno');
         console.log(fullname)
 
         var printContent = `
@@ -240,7 +241,7 @@
                     <table class="information-table">
                         <thead>
                             <tr>
-                                <th scope="col">Patient</th>
+                                    <th scope="col">Mrno#${mrno}</th>
                                      <th scope="col">Age</th>
                                           <th scope="col">sex</th>
                                                <th scope="col">Token</th>
@@ -270,8 +271,8 @@
                             <table class="information-table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Doctor Name</th>
-                                        <th scope="col">Fee</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
