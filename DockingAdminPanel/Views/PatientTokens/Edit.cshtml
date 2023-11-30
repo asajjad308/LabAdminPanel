@@ -29,13 +29,23 @@
                 <span asp-validation-for="TotalCounterAddedDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="submit" value="Save" class="btn btn-primary"><i class="fa-solid fa-hard-drive"></i> Save</button>
+                <a asp-action="Index" class="btn btn-info"><i class="fa-regular fa-pen-to-square"></i> Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    
 </div>
 
+
+
+<style>
+    .btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }
+
+</style>

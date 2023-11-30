@@ -6,40 +6,57 @@
 
 <h1>Create</h1>
 
-<h4>LabItems</h4>
+<h4>Lab Items</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 offset-md-2">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                     <div class="form-floating mb-3">
+                <input asp-for="TestName" class="form-control" placeholder="Test Name" style="height: 53px;" />
                 <label asp-for="TestName" class="control-label"></label>
-                <input asp-for="TestName" class="form-control" />
                 <span asp-validation-for="TestName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+
+                <div class="col-md-6">
+                     <div class="form-floating mb-3">
+                <input asp-for="Cost" class="form-control" placeholder="Cost" style="height: 53px;" />
                 <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" />
                 <span asp-validation-for="Cost" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                </div>
+            
+                <div class="col-md-6">
+                     <div class="form-floating mb-3">
+                <input asp-for="Price" class="form-control" placeholder="Price" style="height: 53px;" />
+                  <label asp-for="Price" class="control-label"></label>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+            
+                <div class="col-md-6">
+                     <div class="form-floating mb-3">
+                <input asp-for="Units" class="form-control" placeholder="Units" style="height: 53px;" />
                 <label asp-for="Units" class="control-label"></label>
-                <input asp-for="Units" class="form-control" />
                 <span asp-validation-for="Units" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+            
+                <div class="col-md-6">
+                     <div class="form-floating mb-3">
+                <textarea asp-for="NormalValue" class="form-control" placeholder="Normal Value" style="height: 53px;"></textarea>
                 <label asp-for="NormalValue" class="control-label"></label>
-                <input asp-for="NormalValue" class="form-control" />
                 <span asp-validation-for="NormalValue" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-6">
-                <label asp-for="CategoryId" class="control-label">Category</label>
-                <select asp-for="CategoryId" required class="form-control">
+                </div>
+            
+                <div class="col-md-6">
+                    <div class="form-floating">
+                <select asp-for="CategoryId" required class="form-control" placeholder="Category" style="height: 53px;">
+                 <label asp-for="CategoryId" class="control-label">Category</label>
                     <option value="">Select a Category</option>
                     @if (Model.labCategories.Count() > 0)
                     {
@@ -51,14 +68,29 @@
                 </select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            
+            </div>
+
+           
+           
+           
+           
+           
+            
+            <div class="form-group mt-2">
+                <button type="submit" class="btn btn-primary w-25"><i class="fa-solid fa-circle-plus"></i> Create</button>
+                <a asp-action="Index" class="btn btn-info w-25"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    .btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }
 
+
+</style>

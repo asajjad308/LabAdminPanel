@@ -6,41 +6,50 @@
 
 <h1>Edit</h1>
 
-<h4>LabItems</h4>
+<h4>Lab Items</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="TestName" class="control-label"></label>
-                <input asp-for="TestName" class="form-control" />
+            <div class="form-floating mb-3">
+               
+                <input asp-for="TestName" class="form-control" placeholder="Enter Test Name" />
+                 <label asp-for="TestName" class="control-label"></label>
                 <span asp-validation-for="TestName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-floating mb-3">
+                
+                <input asp-for="Price" class="form-control" placeholder="Enter Price" />
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Units" class="control-label"></label>
-                <input asp-for="Units" class="form-control" />
+            <div class="form-floating mb-3">
+             
+                <input asp-for="Units" class="form-control" placeholder="Enter Units" />
+                   <label asp-for="Units" class="control-label"></label>
                 <span asp-validation-for="Units" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NormalValue" class="control-label"></label>
-                <input asp-for="NormalValue" class="form-control" />
+            <div class="form-floating mb-3">
+             
+                <input asp-for="NormalValue" class="form-control" placeholder="Enter Normal Value" />
+                   <label asp-for="NormalValue" class="control-label"></label>
                 <span asp-validation-for="NormalValue" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-hard-drive"></i> Save</button>
+                <a asp-action="Index" class="btn btn-info"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+<style>
+    .btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }
+
+</style>

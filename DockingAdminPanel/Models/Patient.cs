@@ -12,6 +12,7 @@ namespace DockingAdminPanel.Models
 		public int AppointmentNumber { get; set; }
 		public string FullName => $"{FirstName} {LastName}"; // Computed property for full name
         public string? Email { get; set; }
+        
         public string ?PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int Age { get; set; }

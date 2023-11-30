@@ -7,9 +7,9 @@
 <h1>Details</h1>
 
 <div>
-    <h4>LabItems</h4>
+    <h4>Lab Items</h4>
     <hr />
-    <dl class="row">
+    <!-- <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TestName)
         </dt>
@@ -34,9 +34,51 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NormalValue)
         </dd>
-    </dl>
+    </dl> -->
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="row">
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.TestName)</th>
+        <th>@Html.DisplayNameFor(model => model.Price)</th>
+        <th> @Html.DisplayNameFor(model => model.Units)</th>
+        <th>@Html.DisplayNameFor(model => model.NormalValue)</th>
+        <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>@Html.DisplayFor(model => model.TestName)</td>
+        <td>@Html.DisplayFor(model => model.Price)</td>
+        <td>@Html.DisplayFor(model => model.Units)</td>
+        <td> @Html.DisplayFor(model => model.NormalValue)</td>
+        <td class="w-25 text-end">
+            <div>
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary"><i class="fa-regular fa-pen-to-square"></i> Edit</a> |
+                <a asp-action="Index" class="btn btn-info"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
+            </div>
+        
+        </td>
+        </tr>
+    </tbody>
+    </table>
 </div>
+
+
+
+
+<style>
+    .btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }
+
+    .btn-secondary:hover {
+        background: transparent !important;
+        color: #6c757d !important;
+    }
+
+</style>
