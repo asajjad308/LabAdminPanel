@@ -8,91 +8,166 @@
 
 <h4>Doctor</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row gy-4">
+    <div class="col-md-6 offset-md-2">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+
+            <div class="row">
+                <div class="col-md-6">
+                        <div class="form-floating">
+                
+                <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" />
                 <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+
+                <div class="col-md-6">
+                        <div class="form-floating">
+                
+                <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
                 <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                         <div class="form-floating">
+               
+                <input asp-for="Email" class="form-control" placeholder="Enter Email" />
+                 <label asp-for="Email" class="control-label"></label>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+
+                <div class="col-md-6">
+                          <div class="form-floating">
+                
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter Phone Number" />
                 <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Specialization" class="control-label"></label>
-                <input asp-for="Specialization" class="form-control" />
+                </div>
+
+                <div class="col-md-6">
+                         <div class="form-floating">
+               
+                <input asp-for="Specialization" class="form-control" placeholder="Enter Specialiation" />
+                 <label asp-for="Specialization" class="control-label"></label>
                 <span asp-validation-for="Specialization" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+
+                <div class="col-md-6">
+                          <div class="form-floating">
+                
+                <input asp-for="LicenseNumber" class="form-control" placeholder="Enter License Number" />
                 <label asp-for="LicenseNumber" class="control-label"></label>
-                <input asp-for="LicenseNumber" class="form-control" />
                 <span asp-validation-for="LicenseNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+
+                 <div class="col-md-6">
+                     <div class="form-floating">
+                
+                <input asp-for="DateOfBirth" class="form-control" placeholder="Enter Date Of Birth" />
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <div class="form-group">
+                </div>
+
+                 <div class="col-md-6">
+                         <div class="form-floating">
+                
+                <input asp-for="Address" class="form-control" placeholder="Enter Address" />
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                </div>
+
+                 <div class="col-md-6">
+                        <div class="form-floating">
+               
+                <input asp-for="City" class="form-control" placeholder="Enter City" />
+                 <label asp-for="City" class="control-label"></label>
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
+                </div>
+
+                 <div class="col-md-6">
+                        <div class="form-floating">
+               
+                <input asp-for="State" class="form-control" placeholder="Enter State" />
+                 <label asp-for="State" class="control-label"></label>
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ZipCode" class="control-label"></label>
-                <input asp-for="ZipCode" class="form-control" />
+                </div>
+
+                 <div class="col-md-6">
+                        <div class="form-floating">
+               
+                <input asp-for="ZipCode" class="form-control" placeholder="Enter Zip Code" />
+                 <label asp-for="ZipCode" class="control-label"></label>
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
-            <div class="row">
-                <div class="form-group col-4">
-                    <label asp-for="TotalFee" class="control-label"></label>
-                    <input asp-for="TotalFee" type="number" class="form-control" />
+                </div>
+
+
+                  <div class="form-floating col-6">
+                    
+                    <input asp-for="TotalFee" type="number" class="form-control" placeholder="Enter Total Fee" />
+                    <label asp-for="TotalFee" class="control-label charges"></label>
                     <span asp-validation-for="TotalFee" class="text-danger"></span>
                 </div>
-                <div class="form-group col-4">
+
+                    <div class="d-md-flex justify-content-around">
+                            <div class="form-floating col-4">
+                    
+                    <input asp-for="DoctorFee" type="number" class="form-control" placeholder="Enter Doctor Fee" />
                     <label asp-for="DoctorFee" class="control-label"></label>
-                    <input asp-for="DoctorFee" type="number" class="form-control" />
                     <span asp-validation-for="DoctorFee" class="text-danger"></span>
                 </div>
-                <div class="form-group col-4">
+
+                <div class="form-floating col-4">
+                    <input asp-for="ClinicCharges" type="number" class="form-control" placeholder="Enter Clinic Charges" />
                     <label asp-for="ClinicCharges" class="control-label"></label>
-                    <input asp-for="ClinicCharges" type="number" class="form-control" />
                     <span asp-validation-for="ClinicCharges" class="text-danger"></span>
-                </div>
+                </div>   
+                    
+                    </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            
+            
+           
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-hard-drive"></i> Save</button> 
+                <a asp-action="Index" class="btn btn-info"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
+
+
+<style>
+    .btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }
+
+    input {
+        height: 53px !important;
+    }
+
+    .form-floating {
+        margin-bottom: 16px;
+    }
+
+    .charges {
+        left: 9px !important;
+    }
+</style>
