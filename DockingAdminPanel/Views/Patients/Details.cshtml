@@ -64,6 +64,19 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary"><i class="fa-regular fa-pen-to-square"></i> Edit</a> |
+    <a asp-action="Index" class="btn btn-info"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
 </div>
+
+
+<style>
+    .btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }	
+
+    .btn-secondary:hover{
+        background: transparent !important;
+        color: #6c757d !important;
+    }
+</style>

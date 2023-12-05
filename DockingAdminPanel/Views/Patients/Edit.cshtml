@@ -15,76 +15,77 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="row">
-                <div class="form-group col-6">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+                <div class="form-floating col-6">
+                
+                <input asp-for="FirstName" class="form-control" placeholder="Enter First Name" />
+				<label asp-for="FirstName" class="control-label"></label>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-                <div class="form-group col-6">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+                <div class="form-floating col-6">
+                
+                <input asp-for="LastName" class="form-control" placeholder="Enter Last Name" />
+				<label asp-for="LastName" class="control-label"></label>
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             </div>
             <div class="row">
-                <div class="form-group col-6">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <div class="form-floating col-6">
+                
+                <input asp-for="Email" class="form-control" placeholder="Enter Email" />
+				<label asp-for="Email" class="control-label"></label>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-                <div class="form-group col-6">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <div class="form-floating col-6">
+                
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Enter Phone Number" />
+				<label asp-for="PhoneNumber" class="control-label"></label>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             </div>
                 <div class="row">
-                    <div class="form-group col-6">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+                    <div class="form-floating col-6">
+               
+                <input asp-for="DateOfBirth" class="form-control" placeholder="Enter Date Of Birth" />
+				 <label asp-for="DateOfBirth" class="control-label"></label>
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-                    <div class="form-group col-6">
+                    <div class="form-floating col-6">
+                <input asp-for="Address" class="form-control" placeholder="Enter Address" />
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
            </div>
             <div class="row">
-            <div class="form-group col-6">
-                <label asp-for="MedicalRecordNumber" class="control-label"></label>
-                <input asp-for="MedicalRecordNumber" class="form-control" />
+            <div class="form-floating col-6">
+                
+                <input asp-for="MedicalRecordNumber" class="form-control" placeholder="Enter Medical Record Number" />
+				<label asp-for="MedicalRecordNumber" class="control-label"></label>
                 <span asp-validation-for="MedicalRecordNumber" class="text-danger"></span>
             </div>
 
-            <div class="form-group col-6">
-                <label asp-for="Illness" class="control-label"></label>
-                <input asp-for="Illness" class="form-control" />
+            <div class="form-floating col-6">
+               
+                <input asp-for="Illness" class="form-control" placeholder="Enter Illness" />
+				 <label asp-for="Illness" class="control-label"></label>
                 <span asp-validation-for="Illness" class="text-danger"></span>
             </div>
 
             </div>
 			<div class="row">
-				<div class="form-group col-6">
-					<label asp-for="MedicalRecordNumber" class="control-label"></label>
-					<input asp-for="MedicalRecordNumber" class="form-control" />
-					<span asp-validation-for="MedicalRecordNumber" class="text-danger"></span>
-				</div>
-				<div class="form-group form-check">
+				<div class="form-group form-check d-flex justify-content-evenly ">
 					<label class="form-check-label">
 						<input class="form-check-input" asp-for="PaymentStatus" /> PaymentStatus
 					</label>
-				</div>
-			 
-				<div class="form-group form-check">
+
 					<label class="form-check-label">
 						<input class="form-check-input" asp-for="External" /> External
 					</label>
 				</div>
+			 
 			</div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-				<a asp-action="Index">Back to List</a>
+            <div class="form-group text-center">
+                <button type="submit" value="Save" class="btn btn-primary ms-3"><i class="fa-solid fa-hard-drive"></i> Save</button>
+				<a asp-action="Index" class="btn btn-info"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
             </div>
         </form>
     </div>
@@ -234,4 +235,22 @@
 			-moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
 			box-shadow: 0px 0px 20px rgba(0, 0, 0, .1);
 		}
+
+	.btn-info:hover {
+        background: transparent !important;
+    color: #25cff2 !important;
+    }	
+
+
+	.form-floating {
+		margin-bottom: 15px;
+	}
+
+	.form-floating .control-label {
+  left: 10px;
+}
+
+ .form-floating input {
+  height: 53px;
+}
 </style>

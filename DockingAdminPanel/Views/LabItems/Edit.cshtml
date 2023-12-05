@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-6">
                       <div class="form-floating mb-3">
-                <input asp-for="TestName" class="form-control" placeholder="Enter Test Name" style="height: 53px;" />
+                <input asp-for="TestName" class="form-control" placeholder="Enter Test Name" />
                  <label asp-for="TestName" class="control-label"></label>
                 <span asp-validation-for="TestName" class="text-danger"></span>
             </div>
@@ -25,7 +25,7 @@
 
                  <div class="col-md-6">
                      <div class="form-floating mb-3">
-                <input asp-for="Price" class="form-control" placeholder="Enter Price" style="height: 53px;" />
+                <input asp-for="Price" class="form-control" placeholder="Enter Price" />
                 <label asp-for="Price" class="control-label"></label>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
@@ -34,7 +34,7 @@
                  <div class="col-md-6">
 
             <div class="form-floating mb-3">
-                <input asp-for="Units" class="form-control" placeholder="Enter Units" style="height: 53px;" />
+                <input asp-for="Units" class="form-control" placeholder="Enter Units" />
                    <label asp-for="Units" class="control-label"></label>
                 <span asp-validation-for="Units" class="text-danger"></span>
             </div>
@@ -42,7 +42,7 @@
 
                  <div class="col-md-6">
                      <div class="form-floating mb-3">
-                <input asp-for="NormalValue" class="form-control" placeholder="Enter Normal Value" style="height: 53px;" />
+                <input asp-for="NormalValue" class="form-control" placeholder="Enter Normal Value" />
                    <label asp-for="NormalValue" class="control-label"></label>
                 <span asp-validation-for="NormalValue" class="text-danger"></span>
             </div>
@@ -53,7 +53,7 @@
           
            
            
-            <div class="form-group">
+            <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary w-25"><i class="fa-solid fa-hard-drive"></i> Save</button>
                 <a asp-action="Index" class="btn btn-info w-25"><i class="fa-solid fa-circle-arrow-left"></i> Back to List</a>
             </div>
@@ -66,6 +66,10 @@
     .btn-info:hover {
         background: transparent !important;
     color: #25cff2 !important;
+    }
+
+    .form-floating input {
+        height: 53px !important;
     }
 
 </style>
